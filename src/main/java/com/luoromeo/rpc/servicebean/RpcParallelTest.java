@@ -1,18 +1,16 @@
 package com.luoromeo.rpc.servicebean;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.time.StopWatch;
 
 import com.luoromeo.rpc.core.send.MessageSendExecutor;
+import com.luoromeo.rpc.serialize.support.RpcSerializeProtocol;
 
 public class RpcParallelTest {
 
-    public static void main(String[] args) throws Exception {
-        final MessageSendExecutor executor = new MessageSendExecutor("127.0.0.1:18888");
-        //并行度10000
-        int parallel = 1000;
-
+    public static void parallelTask(MessageSendExecutor executor, int parallel, String serverAddress, RpcSerializeProtocol protocol) throws InterruptedException {
         //开始计时
         StopWatch sw = new StopWatch();
         sw.start();
@@ -28,11 +26,51 @@ public class RpcParallelTest {
         //10000个并发线程瞬间发起请求操作
         signal.countDown();
         finish.await();
-
         sw.stop();
 
-        String tip = String.format("RPC调用总共耗时: [%s] 毫秒", sw.getTime());
+        String tip = String.format("[%s] RPC调用总共耗时: [%s] 毫秒", protocol, sw.getTime());
         System.out.println(tip);
+
+    }
+
+    //JDK本地序列化协议
+    public static void JdkNativeParallelTask(MessageSendExecutor executor, int parallel) throws InterruptedException {
+        String serverAddress = "127.0.0.1:18887";
+        RpcSerializeProtocol protocol = RpcSerializeProtocol.JDKSERIALIZE;
+        executor.setRpcServerLoader(serverAddress, protocol);
+        RpcParallelTest.parallelTask(executor, parallel, serverAddress, protocol);
+        TimeUnit.SECONDS.sleep(3);
+    }
+
+    //Kryo序列化协议
+    public static void KryoParallelTask(MessageSendExecutor executor, int parallel) throws InterruptedException {
+        String serverAddress = "127.0.0.1:18888";
+        RpcSerializeProtocol protocol = RpcSerializeProtocol.KRYOSERIALIZE;
+        executor.setRpcServerLoader(serverAddress, protocol);
+        RpcParallelTest.parallelTask(executor, parallel, serverAddress, protocol);
+        TimeUnit.SECONDS.sleep(3);
+    }
+
+    //Hessian序列化协议
+    public static void HessianParallelTask(MessageSendExecutor executor, int parallel) throws InterruptedException {
+        String serverAddress = "127.0.0.1:18889";
+        RpcSerializeProtocol protocol = RpcSerializeProtocol.HESSIANSERIALIZE;
+        executor.setRpcServerLoader(serverAddress, protocol);
+        RpcParallelTest.parallelTask(executor, parallel, serverAddress, protocol);
+        TimeUnit.SECONDS.sleep(3);
+    }
+
+    public static void main(String[] args) throws Exception {
+        //并行度10000
+        int parallel = 10000;
+        MessageSendExecutor executor = new MessageSendExecutor();
+
+        for (int i = 0; i < 10; i++) {
+            JdkNativeParallelTask(executor, parallel);
+            KryoParallelTask(executor, parallel);
+            HessianParallelTask(executor, parallel);
+            System.out.printf("[author tangjie] Netty RPC Server 消息协议序列化第[%d]轮并发验证结束!\n\n", i);
+        }
 
         executor.stop();
     }

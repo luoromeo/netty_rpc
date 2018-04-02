@@ -1,9 +1,9 @@
 package com.luoromeo.rpc.core.send;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
+import com.google.common.reflect.AbstractInvocationHandler;
 import com.luoromeo.rpc.core.MessageCallBack;
 import com.luoromeo.rpc.core.RpcServerLoader;
 import com.luoromeo.rpc.model.MessageRequest;
@@ -14,16 +14,10 @@ import com.luoromeo.rpc.model.MessageRequest;
  * @date 2018年03月29日 11:51
  * @modified By
  */
-public class MessageSendProxy<T> implements InvocationHandler {
-
-    private Class<T> cls;
-
-    public MessageSendProxy(Class<T> cls) {
-        this.cls = cls;
-    }
+public class MessageSendProxy<T> extends AbstractInvocationHandler {
 
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    public Object handleInvocation(Object proxy, Method method, Object[] args) throws Throwable {
         MessageRequest request = new MessageRequest();
         request.setMessageId(UUID.randomUUID().toString());
         request.setClassName(method.getDeclaringClass().getName());

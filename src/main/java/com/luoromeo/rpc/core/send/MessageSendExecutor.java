@@ -1,8 +1,8 @@
 package com.luoromeo.rpc.core.send;
 
-import java.lang.reflect.Proxy;
-
+import com.google.common.reflect.Reflection;
 import com.luoromeo.rpc.core.RpcServerLoader;
+import com.luoromeo.rpc.serialize.support.RpcSerializeProtocol;
 
 /**
  * @description 客户端执行模块
@@ -13,16 +13,22 @@ import com.luoromeo.rpc.core.RpcServerLoader;
 public class MessageSendExecutor {
     private RpcServerLoader loader = RpcServerLoader.getInstance();
 
-    public MessageSendExecutor(String serverAddress) {
-        loader.load(serverAddress);
+    public MessageSendExecutor() {
+    }
+
+    public MessageSendExecutor(String serverAddress, RpcSerializeProtocol serializeProtocol) {
+        loader.load(serverAddress, serializeProtocol);
+    }
+
+    public void setRpcServerLoader(String serverAddress, RpcSerializeProtocol serializeProtocol) {
+        loader.load(serverAddress, serializeProtocol);
     }
 
     public void stop() {
         loader.unLoad();
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> T execute(Class<T> rpcInterface) {
-        return (T) Proxy.newProxyInstance(rpcInterface.getClassLoader(), new Class[] { rpcInterface }, new MessageSendProxy<T>(rpcInterface));
+        return (T) Reflection.newProxy(rpcInterface, new MessageSendProxy<T>());
     }
 }
