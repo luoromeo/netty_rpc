@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @date 2018年03月28日 23:40
  * @modified By
  */
-public class NameThreadFactory implements ThreadFactory {
+public class NamedThreadFactory implements ThreadFactory {
 
     private static final AtomicInteger THREAD_NUM = new AtomicInteger(1);
 
@@ -21,15 +21,15 @@ public class NameThreadFactory implements ThreadFactory {
 
     private final ThreadGroup threadGroup;
 
-    public NameThreadFactory() {
+    public NamedThreadFactory() {
         this("rpcserver-threadpool-" + THREAD_NUM.getAndIncrement(), false);
     }
 
-    public NameThreadFactory(String prefix) {
+    public NamedThreadFactory(String prefix) {
         this(prefix, false);
     }
 
-    public NameThreadFactory(String prefix, boolean daemonThread) {
+    public NamedThreadFactory(String prefix, boolean daemonThread) {
         this.prefix = prefix + "-thread-";
         this.daemonThread = daemonThread;
         SecurityManager s = System.getSecurityManager();

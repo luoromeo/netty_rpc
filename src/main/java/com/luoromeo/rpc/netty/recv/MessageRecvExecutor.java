@@ -1,5 +1,12 @@
 package com.luoromeo.rpc.netty.recv;
 
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
+
 import java.nio.channels.spi.SelectorProvider;
 import java.util.Iterator;
 import java.util.Map;
@@ -14,16 +21,12 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import com.luoromeo.rpc.core.NameThreadFactory;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.luoromeo.rpc.core.NamedThreadFactory;
+import com.luoromeo.rpc.core.RpcSystemConfig;
 import com.luoromeo.rpc.core.RpcThreadPool;
 import com.luoromeo.rpc.model.MessageKeyVal;
-
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
+import com.luoromeo.rpc.serialize.support.RpcSerializeProtocol;
 
 /**
  * @description Rpc服务端执行模块
@@ -33,13 +36,55 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  */
 public class MessageRecvExecutor implements ApplicationContextAware, InitializingBean {
 
+    /**
+     * 服务器地址 ip:port
+     */
     private String serverAddress;
 
-    private final static String DELIMITER = ":";
+    private int echoApiPort;
 
-    private Map<String, Object> handleMap = new ConcurrentHashMap<>();
+    /**
+     * 序列化协议，默认为jdk
+     */
+    private RpcSerializeProtocol serializeProtocol = RpcSerializeProtocol.JDKSERIALIZE;
 
-    private static ThreadPoolExecutor threadPoolExecutor;
+    /**
+     * 冒号
+     */
+    private static final String DELIMITER = RpcSystemConfig.DELIMITER;
+
+    /**
+     * 并发数
+     */
+    private static final int PARALLEL = RpcSystemConfig.SYSTEM_PROPERTY_PARALLEL * 2;
+
+    /**
+     * 线程数
+     */
+    private static int threadNums = RpcSystemConfig.SYSTEM_PROPERTY_THREADPOOL_THREAD_NUMS;
+
+    /**
+     * 队列大小
+     */
+    private static int queueNums = RpcSystemConfig.SYSTEM_PROPERTY_THREADPOOL_QUEUE_NUMS;
+
+    private static volatile ListeningExecutorService threadPoolExecutor;
+
+    private Map<String, Object> handlerMap = new ConcurrentHashMap<>();
+
+    private int numberOfEchoThreadsPool = 1;
+
+    ThreadFactory threadRpcFactory = new NamedThreadFactory("NettyRPC ThreadFactory");
+
+    EventLoopGroup boss = new NioEventLoopGroup();
+
+    EventLoopGroup worker = new NioEventLoopGroup(PARALLEL, threadRpcFactory, SelectorProvider.provider());
+
+
+    public MessageRecvExecutor() {
+        handlerMap.clear();
+        register();
+    }
 
     public MessageRecvExecutor(String serverAddress) {
         this.serverAddress = serverAddress;
@@ -79,7 +124,7 @@ public class MessageRecvExecutor implements ApplicationContextAware, Initializin
 
         //netty的线程池模型设置成主从模式，这样可以应对高并发要求
         //当然netty还支持单线程、多线程网络IO模型，可以根据业务需求灵活配置
-        ThreadFactory threadFactory = new NameThreadFactory("NettyRPC ThreadFactory");
+        ThreadFactory threadFactory = new NamedThreadFactory("NettyRPC ThreadFactory");
 
         //方法返回到Java虚拟机的可用的处理器数量
         int parallel = Runtime.getRuntime().availableProcessors() * 2;
@@ -92,7 +137,7 @@ public class MessageRecvExecutor implements ApplicationContextAware, Initializin
             bootstrap.group(boss, worker).channel(NioServerSocketChannel.class)
                     .childHandler(new MessageRecvChannelInitializer(handleMap))
                     .option(ChannelOption.SO_BACKLOG, 128)
-                    .childOption(ChannelOption.SO_KEEPALIVE,true);
+                    .childOption(ChannelOption.SO_KEEPALIVE, true);
 
             String[] ipAddr = serverAddress.split(MessageRecvExecutor.DELIMITER);
 
@@ -110,4 +155,6 @@ public class MessageRecvExecutor implements ApplicationContextAware, Initializin
             boss.shutdownGracefully();
         }
     }
+
+
 }
