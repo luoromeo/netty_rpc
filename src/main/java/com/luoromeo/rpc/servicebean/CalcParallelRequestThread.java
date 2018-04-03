@@ -14,7 +14,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.luoromeo.rpc.core.send.MessageSendExecutor;
+import com.luoromeo.rpc.netty.send.MessageSendExecutor;
 
 public class CalcParallelRequestThread implements Runnable {
 

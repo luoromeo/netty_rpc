@@ -1,6 +1,5 @@
-package com.luoromeo.rpc.core.recv;
+package com.luoromeo.rpc.netty.recv;
 
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 

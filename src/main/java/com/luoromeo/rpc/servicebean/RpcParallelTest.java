@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.time.StopWatch;
 
-import com.luoromeo.rpc.core.send.MessageSendExecutor;
+import com.luoromeo.rpc.netty.send.MessageSendExecutor;
 import com.luoromeo.rpc.serialize.support.RpcSerializeProtocol;
 
 public class RpcParallelTest {
