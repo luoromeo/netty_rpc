@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 
+import com.luoromeo.rpc.event.ServerStartEvent;
 import com.luoromeo.rpc.filter.Filter;
 import com.luoromeo.rpc.filter.ServiceFilterBinder;
 import com.luoromeo.rpc.netty.recv.MessageRecvExecutor;
@@ -30,19 +31,19 @@ public class NettyRpcService implements ApplicationContextAware, ApplicationList
     @Override
     public void onApplicationEvent(ApplicationEvent applicationEvent) {
         ServiceFilterBinder binder = new ServiceFilterBinder();
-
         if (StringUtils.isBlank(filter) || !(applicationContext.getBean(filter) instanceof Filter)) {
             binder.setObject(applicationContext.getBean(ref));
         } else {
             binder.setObject(applicationContext.getBean(ref));
             binder.setFilter((Filter) applicationContext.getBean(filter));
         }
-        MessageRecvExecutor
+        MessageRecvExecutor.getInstance().getHandlerMap().put(interfaceName, binder);
     }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-
+        this.applicationContext = applicationContext;
+        applicationContext.publishEvent(new ServerStartEvent(new Object()));
     }
 
     public String getInterfaceName() {
