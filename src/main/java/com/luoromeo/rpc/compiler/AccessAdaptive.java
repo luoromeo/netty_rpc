@@ -7,5 +7,5 @@ package com.luoromeo.rpc.compiler;
  * @modified By
  */
 public interface AccessAdaptive {
-    Object invoke(String code, String method, Object[] args);
+    Object invoke(String javaSource, String method, Object[] args);
 }
