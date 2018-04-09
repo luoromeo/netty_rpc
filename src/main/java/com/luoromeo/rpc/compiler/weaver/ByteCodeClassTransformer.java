@@ -101,8 +101,15 @@ public class ByteCodeClassTransformer extends AbstractClassTransformer implement
         return result;
     }
 
-    // 本来想用cglib来实现对字节码的控制，但是考虑到性能问题，决定采用偏向底层的ASM对JVM的字节码进行渲染织入增强。
-    // 其中获取方法签名通过反射方式取得，虽然性能上可能有所损失，但是编码方式比较简洁，不会出现大量的ASM堆栈操作的API序列。
+    /**
+     * 本来想用cglib来实现对字节码的控制，但是考虑到性能问题，决定采用偏向底层的ASM对JVM的字节码进行渲染织入增强。
+     * 其中获取方法签名通过反射方式取得，虽然性能上可能有所损失，但是编码方式比较简洁，不会出现大量的ASM堆栈操作的API序列。
+     * @param cw
+     * @param method
+     * @param proxyType
+     * @param handlerName
+     * @throws CreateProxyException
+     */
     private void transformMethod(ClassWriter cw, Method method, Type proxyType, String handlerName) throws CreateProxyException {
         int access = (ACC_PUBLIC | ACC_PROTECTED) & method.getModifiers();
         org.objectweb.asm.commons.Method m = org.objectweb.asm.commons.Method.getMethod(method);
