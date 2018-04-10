@@ -34,7 +34,7 @@ public class MessageCallBack {
             // 设定一下超时时间，rpc服务器太久没有响应的话，就默认返回空
             finish.await(10 * 1000, TimeUnit.MILLISECONDS);
             if (this.response != null) {
-                return this.response.getResultDesc();
+                return this.response.getResult();
             } else {
                 return null;
             }

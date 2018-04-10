@@ -1,7 +1,7 @@
 package com.luoromeo.rpc.netty.send;
 
 import com.google.common.reflect.Reflection;
-import com.luoromeo.rpc.core.RpcServerLoader;
+import com.luoromeo.rpc.netty.RpcServerLoader;
 import com.luoromeo.rpc.serialize.support.RpcSerializeProtocol;
 
 /**
@@ -11,9 +11,18 @@ import com.luoromeo.rpc.serialize.support.RpcSerializeProtocol;
  * @modified By
  */
 public class MessageSendExecutor {
+    private static class MessageSendExecutorHolder {
+        private static final MessageSendExecutor INSTANCE = new MessageSendExecutor();
+    }
+
+    public static MessageSendExecutor getInstance() {
+        return MessageSendExecutorHolder.INSTANCE;
+    }
+
     private RpcServerLoader loader = RpcServerLoader.getInstance();
 
-    public MessageSendExecutor() {
+    private MessageSendExecutor() {
+
     }
 
     public MessageSendExecutor(String serverAddress, RpcSerializeProtocol serializeProtocol) {
@@ -28,7 +37,7 @@ public class MessageSendExecutor {
         loader.unLoad();
     }
 
-    public static <T> T execute(Class<T> rpcInterface) {
-        return (T) Reflection.newProxy(rpcInterface, new MessageSendProxy<T>());
+    public <T> T execute(Class<T> rpcInterface) {
+        return Reflection.newProxy(rpcInterface, new MessageSendProxy<T>());
     }
 }

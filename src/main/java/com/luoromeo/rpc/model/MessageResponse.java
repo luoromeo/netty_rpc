@@ -23,7 +23,9 @@ public class MessageResponse implements Serializable {
 
     private String error;
 
-    private Object resultDesc;
+    private Object result;
+
+    private boolean returnNotNull;
 
     public String getMessageId() {
         return messageId;
@@ -41,12 +43,20 @@ public class MessageResponse implements Serializable {
         this.error = error;
     }
 
-    public Object getResultDesc() {
-        return resultDesc;
+    public Object getResult() {
+        return result;
     }
 
-    public void setResultDesc(Object resultDesc) {
-        this.resultDesc = resultDesc;
+    public void setResult(Object result) {
+        this.result = result;
+    }
+
+    public boolean isReturnNotNull() {
+        return returnNotNull;
+    }
+
+    public void setReturnNotNull(boolean returnNotNull) {
+        this.returnNotNull = returnNotNull;
     }
 
     @Override

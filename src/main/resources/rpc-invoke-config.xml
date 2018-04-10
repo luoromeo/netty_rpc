@@ -18,7 +18,7 @@
         </property>
     </bean>
     <bean id="calc" class="com.luoromeo.rpc.servicebean.CalculateImpl"/>
-    <bean id="rpcServer" class="com.luoromeo.rpc.netty.recv.MessageRecvExecutor">
+    <bean id="rpcServer" class="com.luoromeo.rpc.netty.server.MessageRecvExecutor">
         <constructor-arg name="serverAddress" value="${rpc.server.addr}"/>
     </bean>
 </beans>

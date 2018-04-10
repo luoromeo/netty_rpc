@@ -1,4 +1,4 @@
-package com.luoromeo.rpc.netty.recv;
+package com.luoromeo.rpc.netty.server;
 
 import java.lang.management.ManagementFactory;
 import java.nio.channels.spi.SelectorProvider;
@@ -27,9 +27,9 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.luoromeo.rpc.compiler.AccessAdaptiveProvider;
-import com.luoromeo.rpc.core.NamedThreadFactory;
-import com.luoromeo.rpc.core.RpcSystemConfig;
 import com.luoromeo.rpc.compiler.parallel.RpcThreadPool;
+import com.luoromeo.rpc.compiler.parallel.NamedThreadFactory;
+import com.luoromeo.rpc.core.RpcSystemConfig;
 import com.luoromeo.rpc.model.MessageKeyVal;
 import com.luoromeo.rpc.model.MessageRequest;
 import com.luoromeo.rpc.model.MessageResponse;
@@ -173,7 +173,7 @@ public class MessageRecvExecutor implements ApplicationContextAware {
                 future.addListener((ChannelFutureListener) channelFuture -> {
                     if (channelFuture.isSuccess()) {
                         final ExecutorService executor = Executors.newFixedThreadPool(numberOfEchoThreadsPool);
-                        ExecutorCompletionService<Boolean> completionService = new ExecutorCompletionService<Boolean>(executor);
+                        ExecutorCompletionService<Boolean> completionService = new ExecutorCompletionService<>(executor);
                         completionService.submit(new ApiEchoResolver(host, echoApiPort));
                         System.out
                                 .printf("[author tangjie] Netty RPC Server start success!\nip:%s\nport:%d\nprotocol:%s\nstart-time:%s\njmx-invoke-metrics:%s\n\n",

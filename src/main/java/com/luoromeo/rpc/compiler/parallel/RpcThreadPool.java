@@ -11,14 +11,12 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import com.luoromeo.rpc.compiler.parallel.BlockingQueueType;
 import com.luoromeo.rpc.compiler.parallel.policy.AbortPolicy;
 import com.luoromeo.rpc.compiler.parallel.policy.BlockingPolicy;
 import com.luoromeo.rpc.compiler.parallel.policy.CallerRunsPolicy;
 import com.luoromeo.rpc.compiler.parallel.policy.DiscardedPolicy;
 import com.luoromeo.rpc.compiler.parallel.policy.RejectedPolicy;
 import com.luoromeo.rpc.compiler.parallel.policy.RejectedPolicyType;
-import com.luoromeo.rpc.core.NamedThreadFactory;
 import com.luoromeo.rpc.core.RpcSystemConfig;
 
 /**

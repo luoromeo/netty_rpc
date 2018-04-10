@@ -1,17 +1,17 @@
 package com.luoromeo.rpc.netty.send;
 
-import io.netty.buffer.Unpooled;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
-
 import java.net.SocketAddress;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.luoromeo.rpc.core.MessageCallBack;
 import com.luoromeo.rpc.model.MessageRequest;
 import com.luoromeo.rpc.model.MessageResponse;
+
+import io.netty.buffer.Unpooled;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 
 /**
  * @description Rpc客户端处理模块
@@ -21,7 +21,7 @@ import com.luoromeo.rpc.model.MessageResponse;
  */
 public class MessageSendHandler extends ChannelInboundHandlerAdapter {
 
-    private ConcurrentHashMap<String, MessageCallBack> mapCallBack = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, MessageCallBack> mapCallBack = new ConcurrentHashMap<String, MessageCallBack>();
 
     private volatile Channel channel;
 
@@ -33,6 +33,12 @@ public class MessageSendHandler extends ChannelInboundHandlerAdapter {
 
     public SocketAddress getRemoteAddr() {
         return remoteAddr;
+    }
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        super.channelActive(ctx);
+        this.remoteAddr = this.channel.remoteAddress();
     }
 
     @Override
@@ -50,11 +56,11 @@ public class MessageSendHandler extends ChannelInboundHandlerAdapter {
             mapCallBack.remove(messageId);
             callBack.over(response);
         }
-        super.channelRead(ctx, msg);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        cause.printStackTrace();
         ctx.close();
     }
 
@@ -62,7 +68,7 @@ public class MessageSendHandler extends ChannelInboundHandlerAdapter {
         channel.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
     }
 
-    public MessageCallBack senRequest(MessageRequest request) {
+    public MessageCallBack sendRequest(MessageRequest request) {
         MessageCallBack callBack = new MessageCallBack(request);
         mapCallBack.put(request.getMessageId(), callBack);
         channel.writeAndFlush(request);

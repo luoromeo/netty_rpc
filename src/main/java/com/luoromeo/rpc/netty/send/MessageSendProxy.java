@@ -5,8 +5,8 @@ import java.util.UUID;
 
 import com.google.common.reflect.AbstractInvocationHandler;
 import com.luoromeo.rpc.core.MessageCallBack;
-import com.luoromeo.rpc.core.RpcServerLoader;
 import com.luoromeo.rpc.model.MessageRequest;
+import com.luoromeo.rpc.netty.RpcServerLoader;
 
 /**
  * @description Rpc客户端消息处理
@@ -26,7 +26,7 @@ public class MessageSendProxy<T> extends AbstractInvocationHandler {
         request.setParametersVal(args);
 
         MessageSendHandler handler = RpcServerLoader.getInstance().getMessageSendHandler();
-        MessageCallBack callBack = handler.senRequest(request);
+        MessageCallBack callBack = handler.sendRequest(request);
         return callBack.start();
     }
 }

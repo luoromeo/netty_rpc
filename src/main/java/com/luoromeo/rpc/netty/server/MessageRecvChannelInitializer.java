@@ -1,12 +1,12 @@
-package com.luoromeo.rpc.netty.recv;
-
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.socket.SocketChannel;
+package com.luoromeo.rpc.netty.server;
 
 import java.util.Map;
 
 import com.luoromeo.rpc.serialize.support.RpcSerializeProtocol;
+
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelPipeline;
+import io.netty.channel.socket.SocketChannel;
 
 /**
  * @description Rpc服务端管道初始化
@@ -16,13 +16,9 @@ import com.luoromeo.rpc.serialize.support.RpcSerializeProtocol;
  */
 public class MessageRecvChannelInitializer extends ChannelInitializer<SocketChannel> {
 
-    //ObjectDecoder 底层默认继承半包解码器LengthFieldBasedFrameDecoder处理粘包问题的时候，
-    //消息头开始即为长度字段，占据4个字节。这里出于保持兼容的考虑
-    final public static int MESSAGE_LENGTH = 4;
-    private Map<String, Object> handlerMap = null;
-
     private RpcSerializeProtocol protocol;
-    private RpcRecvSerializeFrame frame = null;
+
+    private RpcRecvSerializeFrame frame;
 
     MessageRecvChannelInitializer buildRpcSerializeProtocol(RpcSerializeProtocol protocol) {
         this.protocol = protocol;
@@ -34,10 +30,8 @@ public class MessageRecvChannelInitializer extends ChannelInitializer<SocketChan
     }
 
     @Override
-    protected void initChannel(SocketChannel socketChannel) throws Exception {
+    protected void initChannel(SocketChannel socketChannel) {
         ChannelPipeline pipeline = socketChannel.pipeline();
         frame.select(protocol, pipeline);
-
     }
 }
-
