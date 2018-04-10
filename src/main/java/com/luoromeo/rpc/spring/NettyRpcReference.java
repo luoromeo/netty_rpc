@@ -9,7 +9,9 @@ import org.springframework.beans.factory.InitializingBean;
 
 import com.google.common.eventbus.EventBus;
 import com.luoromeo.rpc.event.ClientStopEvent;
+import com.luoromeo.rpc.event.ClientStopEventListener;
 import com.luoromeo.rpc.netty.send.MessageSendExecutor;
+import com.luoromeo.rpc.serialize.support.RpcSerializeProtocol;
 
 /**
  * @description
@@ -40,21 +42,28 @@ public class NettyRpcReference implements FactoryBean, InitializingBean, Disposa
 
     @Override
     public Object getObject() throws Exception {
-        return null;
+        return MessageSendExecutor.getInstance().execute(getObjectType());
     }
 
     @Override
     public Class<?> getObjectType() {
+        try {
+            return this.getClass().getClassLoader().loadClass(interfaceName);
+        } catch (ClassNotFoundException e) {
+            System.err.println("spring analyze fail!");
+        }
         return null;
     }
 
     @Override
     public boolean isSingleton() {
-        return false;
+        return true;
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        MessageSendExecutor
+        MessageSendExecutor.getInstance().setRpcServerLoader(ipAddr, RpcSerializeProtocol.valueOf(protocol));
+        ClientStopEventListener listener = new ClientStopEventListener();
+        eventBus.register(listener);
     }
 }
