@@ -167,7 +167,7 @@ public class MessageRecvExecutor implements ApplicationContextAware {
             if (ipAddr.length == RpcSystemConfig.IPADDR_OPRT_ARRAY_LENGTH) {
                 final String host = ipAddr[0];
                 final int port = Integer.parseInt(ipAddr[1]);
-                ChannelFuture future = null;
+                ChannelFuture future;
                 future = bootstrap.bind(host, port).sync();
 
                 future.addListener((ChannelFutureListener) channelFuture -> {
@@ -176,14 +176,16 @@ public class MessageRecvExecutor implements ApplicationContextAware {
                         ExecutorCompletionService<Boolean> completionService = new ExecutorCompletionService<>(executor);
                         completionService.submit(new ApiEchoResolver(host, echoApiPort));
                         System.out
-                                .printf("[author tangjie] Netty RPC Server start success!\nip:%s\nport:%d\nprotocol:%s\nstart-time:%s\njmx-invoke-metrics:%s\n\n",
+                                .printf("[author luoromeo] Netty RPC Server start success!\nip:%s\nport:%d\nprotocol:%s\nstart-time:%s\njmx-invoke-metrics:%s\n\n",
                                         host, port, serializeProtocol, getStartTime(), (RpcSystemConfig.SYSTEM_PROPERTY_JMX_METRICS_SUPPORT ? "open"
                                                 : "close"));
-                        channelFuture.channel().closeFuture().sync().addListener((ChannelFutureListener) future1 -> executor.shutdownNow());
+                        //channelFuture.channel().closeFuture().sync().addListener((ChannelFutureListener) future1 -> executor.shutdownNow());
+                        //sync方法会导致死锁
+                        channelFuture.channel().closeFuture().addListener((ChannelFutureListener) future1 -> executor.shutdownNow());
                     }
                 });
             } else {
-                System.out.print("[author tangjie] Netty RPC Server start fail!\n");
+                System.out.print("[author luoromeo] Netty RPC Server start fail!\n");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

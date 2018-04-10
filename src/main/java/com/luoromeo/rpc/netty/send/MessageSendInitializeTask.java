@@ -30,7 +30,7 @@ public class MessageSendInitializeTask implements Callable<Boolean> {
 
     private RpcSerializeProtocol protocol;
 
-    MessageSendInitializeTask(EventLoopGroup eventLoopGroup, InetSocketAddress serverAddress, RpcSerializeProtocol protocol) {
+    public MessageSendInitializeTask(EventLoopGroup eventLoopGroup, InetSocketAddress serverAddress, RpcSerializeProtocol protocol) {
         this.eventLoopGroup = eventLoopGroup;
         this.serverAddress = serverAddress;
         this.protocol = protocol;
@@ -48,11 +48,12 @@ public class MessageSendInitializeTask implements Callable<Boolean> {
                 MessageSendHandler handler = channelFuture1.channel().pipeline().get(MessageSendHandler.class);
                 RpcServerLoader.getInstance().setMessageSendHandler(handler);
             } else {
-                EventLoop loop = (EventLoop) eventLoopGroup.schedule(() -> {
-                    System.out.println("NettyRPC server is down,start to reconnecting to: " + serverAddress.getAddress().getHostAddress()
-                            + ':' + serverAddress.getPort());
-                    call();
-                }, RpcSystemConfig.SYSTEM_PROPERTY_CLIENT_RECONNECT_DELAY, TimeUnit.SECONDS);
+                EventLoop loop = (EventLoop) eventLoopGroup.schedule(
+                        () -> {
+                            System.out.println("NettyRPC server is down,start to reconnecting to: " + serverAddress.getAddress().getHostAddress()
+                                    + ':' + serverAddress.getPort());
+                            call();
+                        }, RpcSystemConfig.SYSTEM_PROPERTY_CLIENT_RECONNECT_DELAY, TimeUnit.SECONDS);
             }
         });
         return Boolean.TRUE;

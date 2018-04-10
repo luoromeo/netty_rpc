@@ -23,12 +23,16 @@ import com.luoromeo.rpc.netty.MethodProxyAdvisor;
 public class MessageRecvInitializeTask implements Callable<Boolean> {
 
     private MessageRequest request = null;
+
     private MessageResponse response = null;
+
     private Map<String, Object> handlerMap = null;
+
     private static final String METHOD_MAPPED_NAME = "invoke";
+
     private boolean returnNotNull = true;
 
-    MessageRecvInitializeTask(MessageRequest request, MessageResponse response, Map<String, Object> handlerMap) {
+    public MessageRecvInitializeTask(MessageRequest request, MessageResponse response, Map<String, Object> handlerMap) {
         this.request = request;
         this.response = response;
         this.handlerMap = handlerMap;
