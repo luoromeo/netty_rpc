@@ -1,10 +1,10 @@
 package com.luoromeo.rpc.async;
 
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
-
 import java.lang.reflect.Method;
 import java.util.concurrent.Future;
+
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
 
 /**
  * @description
@@ -14,6 +14,7 @@ import java.util.concurrent.Future;
  */
 public class AsyncCallObjectInterceptor implements MethodInterceptor {
     private static final String NETTYRPCSTATUS = "_getStatus";
+
     private Future future;
 
     public AsyncCallObjectInterceptor(Future future) {

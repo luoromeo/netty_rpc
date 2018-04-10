@@ -98,8 +98,8 @@ public class ReflectionUtils {
     public static boolean existDefaultConstructor(Class<?> superclass) {
         final Constructor<?>[] declaredConstructors = superclass.getDeclaredConstructors();
         for (Constructor<?> constructor : declaredConstructors) {
-            boolean exist = (constructor.getParameterTypes().length == 0 &&
-                    (Modifier.isPublic(constructor.getModifiers()) || Modifier.isProtected(constructor.getModifiers())));
+            boolean exist = (constructor.getParameterTypes().length == 0 && (Modifier.isPublic(constructor.getModifiers()) || Modifier
+                    .isProtected(constructor.getModifiers())));
             if (exist) {
                 return true;
             }
@@ -121,12 +121,10 @@ public class ReflectionUtils {
             case 1:
                 Class<?> superclass = parent[0];
                 if (Modifier.isFinal(superclass.getModifiers())) {
-                    throw new CreateProxyException(
-                            "proxy can't build " + superclass.getName() + " because it is final");
+                    throw new CreateProxyException("proxy can't build " + superclass.getName() + " because it is final");
                 }
                 if (!existDefaultConstructor(superclass)) {
-                    throw new CreateProxyException(
-                            "proxy can't build " + superclass.getName() + ", because it has no default constructor");
+                    throw new CreateProxyException("proxy can't build " + superclass.getName() + ", because it has no default constructor");
                 }
 
                 return superclass;
@@ -146,20 +144,19 @@ public class ReflectionUtils {
     }
 
     public static boolean isHashCodeMethod(Method method) {
-        return "hashCode".equals(method.getName()) && Integer.TYPE.equals(method.getReturnType())
-                && method.getParameterTypes().length == 0;
+        return "hashCode".equals(method.getName()) && Integer.TYPE.equals(method.getReturnType()) && method.getParameterTypes().length == 0;
     }
 
     public static boolean isEqualsMethod(Method method) {
-        return "equals".equals(method.getName()) && Boolean.TYPE.equals(method.getReturnType())
-                && method.getParameterTypes().length == 1 && Object.class.equals(method.getParameterTypes()[0]);
+        return "equals".equals(method.getName()) && Boolean.TYPE.equals(method.getReturnType()) && method.getParameterTypes().length == 1
+                && Object.class.equals(method.getParameterTypes()[0]);
     }
 
     public static Object newInstance(Class type) {
         Constructor constructor = null;
         Object[] args = new Object[0];
         try {
-            constructor = type.getConstructor(new Class[]{});
+            constructor = type.getConstructor(new Class[] {});
         } catch (NoSuchMethodException e) {
         }
 
@@ -229,7 +226,8 @@ public class ReflectionUtils {
     }
 
     private void listField(Field f, boolean html) {
-        provider.append(html ? "&nbsp&nbsp" : "  ").append(modifiers(f.getModifiers())).append(getType(f.getType())).append(" ").append(f.getName()).append(html ? ";<br>" : ";\n");
+        provider.append(html ? "&nbsp&nbsp" : "  ").append(modifiers(f.getModifiers())).append(getType(f.getType())).append(" ").append(f.getName())
+                .append(html ? ";<br>" : ";\n");
     }
 
     public void listMethod(Executable member, boolean html) {
@@ -263,7 +261,8 @@ public class ReflectionUtils {
                 }
             }
 
-            provider.append(hasFields ? (html ? "<br>&nbsp&nbsp//&nbspMethods" : "\n  // Methods") : (html ? "&nbsp&nbsp//&nbspMethods" : "  // Methods"));
+            provider.append(hasFields ? (html ? "<br>&nbsp&nbsp//&nbspMethods" : "\n  // Methods") : (html ? "&nbsp&nbsp//&nbspMethods"
+                    : "  // Methods"));
             Method[] methods = c.getDeclaredMethods();
             for (Method method : methods) {
                 listMethod(method, html);

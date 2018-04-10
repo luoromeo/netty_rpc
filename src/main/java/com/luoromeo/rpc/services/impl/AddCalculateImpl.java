@@ -25,7 +25,7 @@ import com.luoromeo.rpc.services.AddCalculate;
  * @since 2016/10/7
  */
 public class AddCalculateImpl implements AddCalculate {
-    //两数相加
+    // 两数相加
     @Override
     public int add(int a, int b) {
         return a + b;

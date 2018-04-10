@@ -23,7 +23,6 @@ package com.luoromeo.rpc.services;
  * @since 2016/10/7
  */
 public interface AddCalculate {
-    //两数相加
+    // 两数相加
     int add(int a, int b);
 }
-

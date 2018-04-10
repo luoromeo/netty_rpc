@@ -19,7 +19,8 @@ import com.luoromeo.rpc.exception.AsyncCallException;
  * @modified By
  */
 public class AsyncInvoker {
-    private ThreadPoolExecutor executor = (ThreadPoolExecutor) RpcThreadPool.getExecutor(RpcSystemConfig.SYSTEM_PROPERTY_THREADPOOL_THREAD_NUMS, RpcSystemConfig.SYSTEM_PROPERTY_THREADPOOL_QUEUE_NUMS);
+    private ThreadPoolExecutor executor = (ThreadPoolExecutor) RpcThreadPool.getExecutor(RpcSystemConfig.SYSTEM_PROPERTY_THREADPOOL_THREAD_NUMS,
+            RpcSystemConfig.SYSTEM_PROPERTY_THREADPOOL_QUEUE_NUMS);
 
     public <R> R submit(final AsyncCallback<R> callback) {
         Type type = callback.getClass().getGenericInterfaces()[0];
@@ -31,8 +32,7 @@ public class AsyncInvoker {
         }
     }
 
-
-    private <T> AsyncFuture<T> submit(Callable<T> task) {
+    private <T> AsyncFuture submit(Callable<T> task) {
         AsyncFuture future = new AsyncFuture<T>(task);
         executor.submit(future);
         return future;

@@ -15,15 +15,13 @@
  */
 package com.luoromeo.rpc.netty.handle.send;
 
-
-import io.netty.channel.ChannelPipeline;
-
 import com.luoromeo.rpc.netty.send.MessageSendHandler;
 import com.luoromeo.rpc.serialize.support.kryo.KryoCodecUtil;
 import com.luoromeo.rpc.serialize.support.kryo.KryoDecoder;
 import com.luoromeo.rpc.serialize.support.kryo.KryoEncoder;
 import com.luoromeo.rpc.serialize.support.kryo.KryoPoolFactory;
 
+import io.netty.channel.ChannelPipeline;
 
 public class KryoSendHandler implements NettyRpcSendHandler {
     @Override
@@ -34,4 +32,3 @@ public class KryoSendHandler implements NettyRpcSendHandler {
         pipeline.addLast(new MessageSendHandler());
     }
 }
-

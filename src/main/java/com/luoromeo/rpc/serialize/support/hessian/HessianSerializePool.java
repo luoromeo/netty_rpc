@@ -47,13 +47,13 @@ public class HessianSerializePool {
     public HessianSerializePool(final int maxTotal, final int minIdle, final long maxWaitMillis, final long minEvictableIdleTimeMillis) {
         hessianPool = new GenericObjectPool<>(new HessianSerializeFactory());
         GenericObjectPoolConfig config = new GenericObjectPoolConfig();
-        //最大池对象总数
+        // 最大池对象总数
         config.setMaxTotal(maxTotal);
-        //最小空闲数
+        // 最小空闲数
         config.setMinIdle(minIdle);
-        //最大等待时间， 默认的值为-1，表示无限等待
+        // 最大等待时间， 默认的值为-1，表示无限等待
         config.setMaxWaitMillis(maxWaitMillis);
-        //退出连接的最小空闲时间 默认1800000毫秒
+        // 退出连接的最小空闲时间 默认1800000毫秒
         config.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
         hessianPool.setConfig(config);
     }

@@ -12,7 +12,6 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 import com.luoromeo.rpc.filter.Filter;
 import com.luoromeo.rpc.filter.ServiceFilterBinder;
 import com.luoromeo.rpc.model.MessageRequest;
-import com.luoromeo.rpc.netty.MethodInvoker;
 
 /**
  * @description

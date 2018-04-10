@@ -21,8 +21,6 @@ public class InvocationProvider implements Invocation {
 
     private final Object[] arguments;
 
-
-
     public InvocationProvider(final Object target, final Object proxy, final Method method, final Object[] arguments) {
         Object[] objects = ArrayUtils.clone(arguments);
         this.method = method;

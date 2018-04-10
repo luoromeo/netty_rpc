@@ -23,9 +23,7 @@ package com.luoromeo.rpc.compiler.parallel;
  * @since 2016/10/7
  */
 public enum BlockingQueueType {
-    LINKED_BLOCKING_QUEUE("LinkedBlockingQueue"),
-    ARRAY_BLOCKING_QUEUE("ArrayBlockingQueue"),
-    SYNCHRONOUS_QUEUE("SynchronousQueue");
+    LINKED_BLOCKING_QUEUE("LinkedBlockingQueue"), ARRAY_BLOCKING_QUEUE("ArrayBlockingQueue"), SYNCHRONOUS_QUEUE("SynchronousQueue");
 
     private String value;
 
@@ -52,4 +50,3 @@ public enum BlockingQueueType {
         return value;
     }
 }
-

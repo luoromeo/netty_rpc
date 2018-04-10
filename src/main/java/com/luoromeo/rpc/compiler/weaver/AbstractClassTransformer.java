@@ -1,6 +1,5 @@
 package com.luoromeo.rpc.compiler.weaver;
 
-
 import java.beans.MethodDescriptor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;

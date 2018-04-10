@@ -7,9 +7,7 @@ package com.luoromeo.rpc.async;
  * @modified By
  */
 public enum CallStatus {
-    RUN,
-    TIMEOUT,
-    DONE;
+    RUN, TIMEOUT, DONE;
 
     public boolean isRun() {
         return this == RUN;

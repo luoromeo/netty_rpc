@@ -27,8 +27,11 @@ import java.util.Date;
  */
 public class Person implements Serializable {
     private int id;
+
     private String name;
+
     private int age;
+
     private Date birthday;
 
     public Date getBirthday() {
@@ -66,7 +69,7 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return birthday != null ? String.format("Person <<id:%d name:%s age:%d birthday:%s>>", id, name, age, birthday) : String.format("Person <<id:%d name:%s age:%d>>", id, name, age);
+        return birthday != null ? String.format("Person <<id:%d name:%s age:%d birthday:%s>>", id, name, age, birthday) : String.format(
+                "Person <<id:%d name:%s age:%d>>", id, name, age);
     }
 }
-

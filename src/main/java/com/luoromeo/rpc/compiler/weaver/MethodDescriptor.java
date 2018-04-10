@@ -12,17 +12,9 @@ import com.google.common.collect.ImmutableMap;
  * @modified By
  */
 public class MethodDescriptor {
-    private static final Map<Class<?>, Character> BUILDER = new ImmutableMap.Builder<Class<?>, Character>()
-            .put(Boolean.TYPE, 'Z')
-            .put(Byte.TYPE, 'B')
-            .put(Short.TYPE, 'S')
-            .put(Integer.TYPE, 'I')
-            .put(Character.TYPE, 'C')
-            .put(Long.TYPE, 'J')
-            .put(Float.TYPE, 'F')
-            .put(Double.TYPE, 'D')
-            .put(Void.TYPE, 'V')
-            .build();
+    private static final Map<Class<?>, Character> BUILDER = new ImmutableMap.Builder<Class<?>, Character>().put(Boolean.TYPE, 'Z')
+            .put(Byte.TYPE, 'B').put(Short.TYPE, 'S').put(Integer.TYPE, 'I').put(Character.TYPE, 'C').put(Long.TYPE, 'J').put(Float.TYPE, 'F')
+            .put(Double.TYPE, 'D').put(Void.TYPE, 'V').build();
 
     private final String internal;
 

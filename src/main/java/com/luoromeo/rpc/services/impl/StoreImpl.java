@@ -35,4 +35,3 @@ public class StoreImpl implements Store {
         System.out.println("StoreImpl ## save int:[" + x + "]");
     }
 }
-

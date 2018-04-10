@@ -17,7 +17,9 @@ import com.luoromeo.rpc.netty.server.MessageRecvInitializeTaskAdapter;
 public class RecvInitializeTaskFacade {
 
     private MessageRequest request;
+
     private MessageResponse response;
+
     private Map<String, Object> handlerMap;
 
     public RecvInitializeTaskFacade(MessageRequest request, MessageResponse response, Map<String, Object> handlerMap) {
@@ -27,7 +29,7 @@ public class RecvInitializeTaskFacade {
     }
 
     public Callable<Boolean> getTask() {
-        return  new MessageRecvInitializeTaskAdapter(request, response, handlerMap);
+        return new MessageRecvInitializeTaskAdapter(request, response, handlerMap);
     }
 
     private Callable<Boolean> getMetricsTask() {

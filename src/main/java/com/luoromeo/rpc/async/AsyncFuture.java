@@ -11,8 +11,11 @@ import java.util.concurrent.FutureTask;
  */
 public class AsyncFuture<V> extends FutureTask<V> {
     private Thread callerThread;
+
     private Thread runnerThread;
+
     private long startTime = 0L;
+
     private long endTime = 0L;
 
     public AsyncFuture(Callable<V> callable) {

@@ -1,11 +1,11 @@
 package com.luoromeo.rpc.async;
 
-import net.sf.cglib.proxy.Callback;
-import net.sf.cglib.proxy.Enhancer;
-
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import net.sf.cglib.proxy.Callback;
+import net.sf.cglib.proxy.Enhancer;
 
 import com.luoromeo.rpc.core.ReflectionUtils;
 import com.luoromeo.rpc.core.RpcSystemConfig;
@@ -20,7 +20,9 @@ import com.luoromeo.rpc.exception.InvokeTimeoutException;
  */
 public class AsyncCallResult {
     private Class returnClass;
+
     private Future future;
+
     private Long timeout;
 
     public AsyncCallResult(Class returnClass, Future future, Long timeout) {
@@ -59,19 +61,18 @@ public class AsyncCallResult {
         if (proxyClass == null) {
             Enhancer enhancer = new Enhancer();
             if (returnClass.isInterface()) {
-                enhancer.setInterfaces(new Class[]{AsyncCallObject.class, returnClass});
+                enhancer.setInterfaces(new Class[] { AsyncCallObject.class, returnClass });
             } else {
-                enhancer.setInterfaces(new Class[]{AsyncCallObject.class});
+                enhancer.setInterfaces(new Class[] { AsyncCallObject.class });
                 enhancer.setSuperclass(returnClass);
             }
             enhancer.setCallbackFilter(new AsyncCallFilter());
-            enhancer.setCallbackTypes(new Class[]{AsyncCallResultInterceptor.class, AsyncCallObjectInterceptor.class});
+            enhancer.setCallbackTypes(new Class[] { AsyncCallResultInterceptor.class, AsyncCallObjectInterceptor.class });
             proxyClass = enhancer.createClass();
             AsyncProxyCache.save(returnClass.getName(), proxyClass);
         }
 
-        Enhancer.registerCallbacks(proxyClass, new Callback[]{new AsyncCallResultInterceptor(this),
-                new AsyncCallObjectInterceptor(future)});
+        Enhancer.registerCallbacks(proxyClass, new Callback[] { new AsyncCallResultInterceptor(this), new AsyncCallObjectInterceptor(future) });
 
         try {
             return ReflectionUtils.newInstance(proxyClass);

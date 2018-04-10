@@ -15,15 +15,13 @@
  */
 package com.luoromeo.rpc.serialize.support.protostuff;
 
-
-
-import org.apache.commons.pool2.impl.GenericObjectPool;
-import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-
 import static com.luoromeo.rpc.core.RpcSystemConfig.SERIALIZE_POOL_MAX_TOTAL;
 import static com.luoromeo.rpc.core.RpcSystemConfig.SERIALIZE_POOL_MAX_WAIT_MILLIS;
 import static com.luoromeo.rpc.core.RpcSystemConfig.SERIALIZE_POOL_MIN_EVICTABLE_IDLE_TIME_MILLIS;
 import static com.luoromeo.rpc.core.RpcSystemConfig.SERIALIZE_POOL_MIN_IDLE;
+
+import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 /**
  * @author tangjie<https://github.com/tang-jie>
@@ -34,6 +32,7 @@ import static com.luoromeo.rpc.core.RpcSystemConfig.SERIALIZE_POOL_MIN_IDLE;
  */
 public class ProtostuffSerializePool {
     private GenericObjectPool<ProtostuffSerialize> protostuffPool;
+
     private static volatile ProtostuffSerializePool poolFactory = null;
 
     private ProtostuffSerializePool() {
@@ -44,7 +43,8 @@ public class ProtostuffSerializePool {
         if (poolFactory == null) {
             synchronized (ProtostuffSerializePool.class) {
                 if (poolFactory == null) {
-                    poolFactory = new ProtostuffSerializePool(SERIALIZE_POOL_MAX_TOTAL, SERIALIZE_POOL_MIN_IDLE, SERIALIZE_POOL_MAX_WAIT_MILLIS, SERIALIZE_POOL_MIN_EVICTABLE_IDLE_TIME_MILLIS);
+                    poolFactory = new ProtostuffSerializePool(SERIALIZE_POOL_MAX_TOTAL, SERIALIZE_POOL_MIN_IDLE, SERIALIZE_POOL_MAX_WAIT_MILLIS,
+                            SERIALIZE_POOL_MIN_EVICTABLE_IDLE_TIME_MILLIS);
                 }
             }
         }
@@ -81,4 +81,3 @@ public class ProtostuffSerializePool {
         return protostuffPool;
     }
 }
-

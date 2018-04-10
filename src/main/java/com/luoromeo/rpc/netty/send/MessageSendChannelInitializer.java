@@ -15,6 +15,7 @@ import io.netty.channel.socket.SocketChannel;
 public class MessageSendChannelInitializer extends ChannelInitializer<SocketChannel> {
 
     private RpcSerializeProtocol protocol;
+
     private RpcSendSerializeFrame frame = new RpcSendSerializeFrame();
 
     MessageSendChannelInitializer buildRpcSerializeProtocol(RpcSerializeProtocol protocol) {

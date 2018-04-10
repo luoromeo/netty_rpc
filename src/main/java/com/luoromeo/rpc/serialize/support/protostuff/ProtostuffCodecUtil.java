@@ -33,7 +33,9 @@ import io.netty.buffer.ByteBuf;
  */
 public class ProtostuffCodecUtil implements MessageCodecUtil {
     private static Closer closer = Closer.create();
+
     private ProtostuffSerializePool pool = ProtostuffSerializePool.getProtostuffPoolInstance();
+
     private boolean rpcDirect = false;
 
     public boolean isRpcDirect() {
@@ -76,4 +78,3 @@ public class ProtostuffCodecUtil implements MessageCodecUtil {
         }
     }
 }
-

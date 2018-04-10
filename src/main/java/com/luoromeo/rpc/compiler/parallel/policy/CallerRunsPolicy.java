@@ -49,4 +49,3 @@ public class CallerRunsPolicy extends ThreadPoolExecutor.CallerRunsPolicy {
         super.rejectedExecution(runnable, executor);
     }
 }
-

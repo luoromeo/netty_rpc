@@ -23,11 +23,8 @@ package com.luoromeo.rpc.compiler.parallel.policy;
  * @since 2016/10/7
  */
 public enum RejectedPolicyType {
-    ABORT_POLICY("AbortPolicy"),
-    BLOCKING_POLICY("BlockingPolicy"),
-    CALLER_RUNS_POLICY("CallerRunsPolicy"),
-    DISCARDED_POLICY("DiscardedPolicy"),
-    REJECTED_POLICY("RejectedPolicy");
+    ABORT_POLICY("AbortPolicy"), BLOCKING_POLICY("BlockingPolicy"), CALLER_RUNS_POLICY("CallerRunsPolicy"), DISCARDED_POLICY("DiscardedPolicy"), REJECTED_POLICY(
+            "RejectedPolicy");
 
     private String value;
 
@@ -54,4 +51,3 @@ public enum RejectedPolicyType {
         return value;
     }
 }
-

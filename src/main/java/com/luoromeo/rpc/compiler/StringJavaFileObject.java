@@ -17,8 +17,6 @@ public class StringJavaFileObject extends SimpleJavaFileObject {
 
     private final String code;
 
-
-
     protected StringJavaFileObject(String className, String code) {
         super(URI.create(SCHEME + className.replace('.', '/') + Kind.SOURCE.extension), Kind.SOURCE);
         this.code = code;

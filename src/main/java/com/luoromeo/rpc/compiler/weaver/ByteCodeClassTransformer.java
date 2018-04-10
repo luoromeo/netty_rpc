@@ -80,9 +80,8 @@ public class ByteCodeClassTransformer extends AbstractClassTransformer implement
     // 字节码中的init方法必须先行初始化。
     // clinit就暂时不考虑了
     private void initialize(ClassWriter cw, Type proxyType, Type superType) {
-        GeneratorAdapter adapter =
-                new GeneratorAdapter(ACC_PUBLIC, new org.objectweb.asm.commons.Method("<init>", Type.VOID_TYPE,
-                        new Type[]{INVOKER_TYPE}), null, null, cw);
+        GeneratorAdapter adapter = new GeneratorAdapter(ACC_PUBLIC, new org.objectweb.asm.commons.Method("<init>", Type.VOID_TYPE,
+                new Type[] { INVOKER_TYPE }), null, null, cw);
         adapter.loadThis();
         adapter.invokeConstructor(superType, org.objectweb.asm.commons.Method.getMethod("void <init> ()"));
         adapter.loadThis();
@@ -115,48 +114,47 @@ public class ByteCodeClassTransformer extends AbstractClassTransformer implement
         org.objectweb.asm.commons.Method m = org.objectweb.asm.commons.Method.getMethod(method);
         GeneratorAdapter adapter = new GeneratorAdapter(access, m, null, getTypes(method.getExceptionTypes()), cw);
 
-        //方法签名入栈
+        // 方法签名入栈
         adapter.push(Type.getType(method.getDeclaringClass()));
         adapter.push(method.getName());
         adapter.push(Type.getArgumentTypes(method).length);
 
-        //创建Class对象
+        // 创建Class对象
         Type classType = Type.getType(Class.class);
         adapter.newArray(classType);
 
-        //获取方法参数列表
+        // 获取方法参数列表
         for (int i = 0; i < Type.getArgumentTypes(method).length; i++) {
-            //从方法堆栈顶复制一份参数类型
+            // 从方法堆栈顶复制一份参数类型
             adapter.dup();
 
-            //把参数索引入栈
+            // 把参数索引入栈
             adapter.push(i);
             adapter.push(Type.getArgumentTypes(method)[i]);
             adapter.arrayStore(classType);
         }
 
-        //调用getDeclaredMethod方法
-        adapter.invokeVirtual(classType,
-                org.objectweb.asm.commons.Method.getMethod("java.lang.reflect.Method getDeclaredMethod(String, Class[])"));
+        // 调用getDeclaredMethod方法
+        adapter.invokeVirtual(classType, org.objectweb.asm.commons.Method.getMethod("java.lang.reflect.Method getDeclaredMethod(String, Class[])"));
 
         adapter.loadThis();
         adapter.getField(proxyType, handlerName, INVOKER_TYPE);
 
-        //偏移堆栈指针
+        // 偏移堆栈指针
         adapter.swap();
 
         adapter.loadThis();
 
-        //偏移堆栈指针
+        // 偏移堆栈指针
         adapter.swap();
 
-        //获取方法的参数取值列表
+        // 获取方法的参数取值列表
         adapter.push(Type.getArgumentTypes(method).length);
         Type objectType = Type.getType(Object.class);
         adapter.newArray(objectType);
 
         for (int i = 0; i < Type.getArgumentTypes(method).length; i++) {
-            //从方法堆栈顶复制一份参数类型
+            // 从方法堆栈顶复制一份参数类型
             adapter.dup();
 
             adapter.push(i);
@@ -166,11 +164,10 @@ public class ByteCodeClassTransformer extends AbstractClassTransformer implement
             adapter.arrayStore(objectType);
         }
 
-        //调用方法
-        adapter.invokeInterface(INVOKER_TYPE,
-                org.objectweb.asm.commons.Method.getMethod("Object invoke(Object, java.lang.reflect.Method, Object[])"));
+        // 调用方法
+        adapter.invokeInterface(INVOKER_TYPE, org.objectweb.asm.commons.Method.getMethod("Object invoke(Object, java.lang.reflect.Method, Object[])"));
 
-        //方法的返回值拆箱
+        // 方法的返回值拆箱
         adapter.unbox(Type.getReturnType(method));
 
         adapter.returnValue();

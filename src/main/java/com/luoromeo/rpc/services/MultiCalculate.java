@@ -23,7 +23,6 @@ package com.luoromeo.rpc.services;
  * @since 2016/10/7
  */
 public interface MultiCalculate {
-    //两数相乘
+    // 两数相乘
     int multi(int a, int b);
 }
-

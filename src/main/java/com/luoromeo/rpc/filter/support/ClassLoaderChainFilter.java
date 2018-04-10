@@ -44,4 +44,3 @@ public class ClassLoaderChainFilter implements ChainFilter {
         }
     }
 }
-

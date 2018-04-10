@@ -9,4 +9,3 @@ package com.luoromeo.rpc.core;
 public interface AbilityDetail {
     StringBuilder listAbilityDetail(boolean html);
 }
-

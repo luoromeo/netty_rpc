@@ -37,7 +37,9 @@ import com.luoromeo.rpc.serialize.support.RpcSerialize;
  */
 public class ProtostuffSerialize implements RpcSerialize {
     private static SchemaCache cachedSchema = SchemaCache.getInstance();
+
     private static Objenesis objenesis = new ObjenesisStd(true);
+
     private boolean rpcDirect = false;
 
     public boolean isRpcDirect() {
@@ -79,4 +81,3 @@ public class ProtostuffSerialize implements RpcSerialize {
         }
     }
 }
-

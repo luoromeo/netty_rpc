@@ -1,8 +1,8 @@
 package com.luoromeo.rpc.model;
 
-import lombok.Data;
-
 import java.util.Map;
+
+import lombok.Data;
 
 /**
  * @description 服务映射容器 RPC服务接口定义、服务接口实现绑定关系容器定义，提供给spring作为容器使用

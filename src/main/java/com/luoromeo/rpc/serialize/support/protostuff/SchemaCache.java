@@ -40,9 +40,7 @@ public class SchemaCache {
         return SchemaCacheHolder.cache;
     }
 
-    private Cache<Class<?>, Schema<?>> cache = CacheBuilder.newBuilder()
-            .maximumSize(1024).expireAfterWrite(1, TimeUnit.HOURS)
-            .build();
+    private Cache<Class<?>, Schema<?>> cache = CacheBuilder.newBuilder().maximumSize(1024).expireAfterWrite(1, TimeUnit.HOURS).build();
 
     private Schema<?> get(final Class<?> cls, Cache<Class<?>, Schema<?>> cache) {
         try {
@@ -61,4 +59,3 @@ public class SchemaCache {
         return get(cls, cache);
     }
 }
-

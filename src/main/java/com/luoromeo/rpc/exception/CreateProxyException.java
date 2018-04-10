@@ -39,4 +39,3 @@ public class CreateProxyException extends RuntimeException {
         super(cause);
     }
 }
-

@@ -26,6 +26,7 @@ import java.io.Serializable;
  */
 public class CostTime implements Serializable {
     public long elapse;
+
     public String detail;
 
     public long getElapse() {
@@ -49,4 +50,3 @@ public class CostTime implements Serializable {
         return "CostTime [elapse=" + elapse + ", detail=" + detail + "]";
     }
 }
-

@@ -23,6 +23,7 @@ public abstract class AbstractAccessAdaptive implements Compiler {
     private static final String CLASS_END_FLAG = "}";
 
     protected ClassProxy factory = new ProxyProvider();
+
     protected NativeCompiler compiler = null;
 
     protected ClassLoader overrideThreadContextClassLoader(ClassLoader loader) {
@@ -99,7 +100,8 @@ public abstract class AbstractAccessAdaptive implements Compiler {
             } catch (RuntimeException t) {
                 throw t;
             } catch (Throwable t) {
-                throw new IllegalStateException("failed to compile class, cause: " + t.getMessage() + ", class: " + className + ", code: \n" + code + "\n, stack: " + report(t));
+                throw new IllegalStateException("failed to compile class, cause: " + t.getMessage() + ", class: " + className + ", code: \n" + code
+                        + "\n, stack: " + report(t));
             } finally {
                 overrideThreadContextClassLoader(compiler.getClassLoader());
                 compiler.close();

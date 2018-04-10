@@ -30,14 +30,14 @@ import com.luoromeo.rpc.services.pojo.Person;
 public class PersonManageImpl implements PersonManage {
     @Override
     public int save(Person p) {
-        //your business logic code here!
+        // your business logic code here!
         System.out.println("person data[" + p + "] has save!");
         return 0;
     }
 
     @Override
     public void query(Person p) {
-        //your business logic code here!
+        // your business logic code here!
         try {
             TimeUnit.SECONDS.sleep(3);
             System.out.println("person data[" + p + "] has query!");
@@ -48,7 +48,7 @@ public class PersonManageImpl implements PersonManage {
 
     @Override
     public void query(long timeout) {
-        //your business logic code here!
+        // your business logic code here!
         try {
             TimeUnit.SECONDS.sleep(timeout);
         } catch (InterruptedException e) {
@@ -71,4 +71,3 @@ public class PersonManageImpl implements PersonManage {
         }
     }
 }
-

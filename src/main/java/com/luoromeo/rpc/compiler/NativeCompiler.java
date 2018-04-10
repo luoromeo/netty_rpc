@@ -34,7 +34,7 @@ public class NativeCompiler implements Closeable {
 
     private static URLClassLoader createClassLoader(File tempFolder) {
         try {
-            URL[] urls = {tempFolder.toURI().toURL()};
+            URL[] urls = { tempFolder.toURI().toURL() };
             return new URLClassLoader(urls);
         } catch (Exception e) {
             throw new AssertionError(e);
@@ -62,7 +62,7 @@ public class NativeCompiler implements Closeable {
     }
 
     @Override
-    public void close()  {
+    public void close() {
         try {
             classLoader.close();
         } catch (Exception e) {

@@ -29,4 +29,3 @@ public interface CostTimeCalculate {
 
     CostTime busy();
 }
-

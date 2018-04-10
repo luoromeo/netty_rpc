@@ -31,6 +31,7 @@ import com.luoromeo.rpc.model.MessageRequest;
  */
 public class ModuleFilterChainWrapper implements Modular {
     private Modular modular;
+
     private List<ChainFilter> filters;
 
     public ModuleFilterChainWrapper(Modular modular) {
@@ -86,4 +87,3 @@ public class ModuleFilterChainWrapper implements Modular {
         this.filters = filters;
     }
 }
-

@@ -27,8 +27,8 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.luoromeo.rpc.compiler.AccessAdaptiveProvider;
-import com.luoromeo.rpc.compiler.parallel.RpcThreadPool;
 import com.luoromeo.rpc.compiler.parallel.NamedThreadFactory;
+import com.luoromeo.rpc.compiler.parallel.RpcThreadPool;
 import com.luoromeo.rpc.core.RpcSystemConfig;
 import com.luoromeo.rpc.model.MessageKeyVal;
 import com.luoromeo.rpc.model.MessageRequest;
@@ -179,8 +179,9 @@ public class MessageRecvExecutor implements ApplicationContextAware {
                                 .printf("[author luoromeo] Netty RPC Server start success!\nip:%s\nport:%d\nprotocol:%s\nstart-time:%s\njmx-invoke-metrics:%s\n\n",
                                         host, port, serializeProtocol, getStartTime(), (RpcSystemConfig.SYSTEM_PROPERTY_JMX_METRICS_SUPPORT ? "open"
                                                 : "close"));
-                        //channelFuture.channel().closeFuture().sync().addListener((ChannelFutureListener) future1 -> executor.shutdownNow());
-                        //sync方法会导致死锁
+                        // channelFuture.channel().closeFuture().sync().addListener((ChannelFutureListener)
+                        // future1 -> executor.shutdownNow());
+                        // sync方法会导致死锁
                         channelFuture.channel().closeFuture().addListener((ChannelFutureListener) future1 -> executor.shutdownNow());
                     }
                 });

@@ -21,7 +21,6 @@ import com.luoromeo.rpc.core.ModuleInvoker;
 import com.luoromeo.rpc.core.ModuleProvider;
 import com.luoromeo.rpc.model.MessageRequest;
 
-
 /**
  * @author tangjie<https://github.com/tang-jie>
  * @filename:ModuleProviderWrapper.java
@@ -31,7 +30,9 @@ import com.luoromeo.rpc.model.MessageRequest;
  */
 public class ModuleProviderWrapper<T> implements ModuleProvider<T> {
     private ModuleProvider<T> provider;
+
     private MessageRequest request;
+
     private List<ModuleListener> listeners;
 
     public ModuleProviderWrapper(ModuleProvider<T> provider, List<ModuleListener> listeners, MessageRequest request) {
@@ -86,4 +87,3 @@ public class ModuleProviderWrapper<T> implements ModuleProvider<T> {
         }
     }
 }
-

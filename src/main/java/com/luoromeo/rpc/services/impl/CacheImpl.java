@@ -51,4 +51,3 @@ public class CacheImpl implements Cache {
         return store.get(key);
     }
 }
-

@@ -15,7 +15,6 @@
  */
 package com.luoromeo.rpc.filter.support;
 
-
 import com.luoromeo.rpc.core.ModuleInvoker;
 import com.luoromeo.rpc.filter.ChainFilter;
 import com.luoromeo.rpc.model.MessageRequest;
@@ -41,4 +40,3 @@ public class EchoChainFilter implements ChainFilter {
         }
     }
 }
-

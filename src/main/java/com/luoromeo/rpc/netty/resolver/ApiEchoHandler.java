@@ -1,10 +1,9 @@
 package com.luoromeo.rpc.netty.resolver;
 
-import static com.luoromeo.rpc.core.RpcSystemConfig.SYSTEM_PROPERTY_JMX_METRICS_SUPPORT;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
-import java.io.UnsupportedEncodingException;
+import com.luoromeo.rpc.core.AbilityDetailProvider;
 
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -12,8 +11,6 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpRequest;
-
-import com.luoromeo.rpc.core.AbilityDetailProvider;
 
 /**
  * @description
@@ -23,8 +20,11 @@ import com.luoromeo.rpc.core.AbilityDetailProvider;
  */
 public class ApiEchoHandler extends ChannelInboundHandlerAdapter {
     private static final String CONTENT_TYPE = "Content-Type";
+
     private static final String CONTENT_LENGTH = "Content-Length";
+
     private static final String CONNECTION = "Connection";
+
     private static final String KEEP_ALIVE = "keep-alive";
 
     public ApiEchoHandler() {
