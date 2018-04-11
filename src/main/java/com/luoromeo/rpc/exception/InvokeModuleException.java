@@ -15,13 +15,6 @@
  */
 package com.luoromeo.rpc.exception;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:InvokeModuleException.java
- * @description:InvokeModuleException功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2017/9/26
- */
 public class InvokeModuleException extends RuntimeException {
     public InvokeModuleException() {
         super();

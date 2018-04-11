@@ -31,6 +31,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.luoromeo.rpc.compiler.AccessAdaptiveProvider;
 import com.luoromeo.rpc.compiler.parallel.NamedThreadFactory;
 import com.luoromeo.rpc.compiler.parallel.RpcThreadPool;
+import com.luoromeo.rpc.core.AbilityDetailProvider;
 import com.luoromeo.rpc.core.RpcSystemConfig;
 import com.luoromeo.rpc.model.MessageKeyVal;
 import com.luoromeo.rpc.model.MessageRequest;
@@ -252,7 +253,8 @@ public class MessageRecvExecutor implements ApplicationContextAware {
     }
 
     private void register() {
-//        handlerMap.put(RpcSystemConfig.RPC_COMPILER_SPI_ATTR, new AccessAdaptiveProvider());
+        handlerMap.put(RpcSystemConfig.RPC_COMPILER_SPI_ATTR, new AccessAdaptiveProvider());
+        handlerMap.put(RpcSystemConfig.RPC_ABILITY_DETAIL_SPI_ATTR, new AbilityDetailProvider());
     }
 
     private String getStartTime() {

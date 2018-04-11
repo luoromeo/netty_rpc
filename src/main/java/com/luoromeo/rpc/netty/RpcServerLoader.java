@@ -33,21 +33,24 @@ public class RpcServerLoader {
 
     private final static String DELIMITER = ":";
 
-    // 默认采用Java原生序列化协议方式传输RPC消息
-    private RpcSerializeProtocol serializeProtocol = RpcSerializeProtocol.JDKSERIALIZE;
+    /**
+     * 方法返回到Java虚拟机的可用的处理器数量
+     */
+    private final static int PARALLEL = Runtime.getRuntime().availableProcessors() * 2;
 
-    // 方法返回到Java虚拟机的可用的处理器数量
-    private final static int parallel = Runtime.getRuntime().availableProcessors() * 2;
-
-    // netty nio线程池
-    private EventLoopGroup eventLoopGroup = new NioEventLoopGroup(parallel);
+    /**
+     * netty nio线程池
+     */
+    private EventLoopGroup eventLoopGroup = new NioEventLoopGroup(PARALLEL);
 
     private static ListeningExecutorService threadPoolExecutor = MoreExecutors.listeningDecorator((ThreadPoolExecutor) RpcThreadPool.getExecutor(16,
             -1));
 
     private MessageSendHandler messageSendHandler = null;
 
-    // 等待Netty服务端链路建立通知信号
+    /**
+     * 等待Netty服务端链路建立通知信号
+     */
     private Lock lock = new ReentrantLock();
 
     private Condition connectStatus = lock.newCondition();
@@ -136,9 +139,5 @@ public class RpcServerLoader {
         messageSendHandler.close();
         threadPoolExecutor.shutdown();
         eventLoopGroup.shutdownGracefully();
-    }
-
-    public void setSerializeProtocol(RpcSerializeProtocol serializeProtocol) {
-        this.serializeProtocol = serializeProtocol;
     }
 }

@@ -23,13 +23,6 @@ import com.luoromeo.rpc.core.ModuleInvoker;
 import com.luoromeo.rpc.core.ModuleProvider;
 import com.luoromeo.rpc.model.MessageRequest;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:ModuleListenerChainWrapper.java
- * @description:ModuleListenerChainWrapper功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2018/2/2
- */
 public class ModuleListenerChainWrapper implements Modular {
     private Modular modular;
 

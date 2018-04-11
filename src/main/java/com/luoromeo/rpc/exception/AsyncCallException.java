@@ -15,13 +15,6 @@
  */
 package com.luoromeo.rpc.exception;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:AsyncCallException.java
- * @description:AsyncCallException功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2017/3/22
- */
 public class AsyncCallException extends RuntimeException {
     public AsyncCallException() {
         super();

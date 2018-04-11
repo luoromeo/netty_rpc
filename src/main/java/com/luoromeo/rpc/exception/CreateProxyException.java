@@ -15,13 +15,6 @@
  */
 package com.luoromeo.rpc.exception;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:CreateProxyException.java
- * @description:CreateProxyException功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2017/8/30
- */
 public class CreateProxyException extends RuntimeException {
     public CreateProxyException() {
         super();

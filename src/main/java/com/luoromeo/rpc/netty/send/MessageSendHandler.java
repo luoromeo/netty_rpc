@@ -21,7 +21,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  */
 public class MessageSendHandler extends ChannelInboundHandlerAdapter {
 
-    private ConcurrentHashMap<String, MessageCallBack> mapCallBack = new ConcurrentHashMap<String, MessageCallBack>();
+    private ConcurrentHashMap<String, MessageCallBack> mapCallBack = new ConcurrentHashMap<>();
 
     private volatile Channel channel;
 
@@ -48,7 +48,7 @@ public class MessageSendHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
         MessageResponse response = (MessageResponse) msg;
         String messageId = response.getMessageId();
         MessageCallBack callBack = mapCallBack.get(messageId);
@@ -59,7 +59,7 @@ public class MessageSendHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
         ctx.close();
     }

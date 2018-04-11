@@ -34,6 +34,10 @@ import com.luoromeo.rpc.compiler.AccessAdaptive;
  */
 public class RpcServerAccessTest {
 
+    /**
+     * 测试发送热代码给server端执行
+     * @param args
+     */
     public static void main(String[] args) {
         try {
             DefaultResourceLoader resource = new DefaultResourceLoader();

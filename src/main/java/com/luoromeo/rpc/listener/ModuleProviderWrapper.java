@@ -21,13 +21,6 @@ import com.luoromeo.rpc.core.ModuleInvoker;
 import com.luoromeo.rpc.core.ModuleProvider;
 import com.luoromeo.rpc.model.MessageRequest;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:ModuleProviderWrapper.java
- * @description:ModuleProviderWrapper功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2018/1/31
- */
 public class ModuleProviderWrapper<T> implements ModuleProvider<T> {
     private ModuleProvider<T> provider;
 

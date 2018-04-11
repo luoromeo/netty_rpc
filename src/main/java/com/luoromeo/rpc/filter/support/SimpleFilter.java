@@ -21,13 +21,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.luoromeo.rpc.filter.Filter;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:SimpleFilter.java
- * @description:SimpleFilter功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2017/7/27
- */
 public class SimpleFilter implements Filter {
     @Override
     public boolean before(Method method, Object processor, Object[] requestObjects) {

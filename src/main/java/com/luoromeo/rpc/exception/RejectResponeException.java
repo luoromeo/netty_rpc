@@ -15,13 +15,6 @@
  */
 package com.luoromeo.rpc.exception;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:RejectResponeException.java
- * @description:RejectResponeException功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2017/7/26
- */
 public class RejectResponeException extends RuntimeException {
     public RejectResponeException() {
         super();

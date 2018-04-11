@@ -18,13 +18,6 @@ package com.luoromeo.rpc.filter;
 import com.luoromeo.rpc.core.ModuleInvoker;
 import com.luoromeo.rpc.model.MessageRequest;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:ChainFilter.java
- * @description:ChainFilter功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2018/1/31
- */
 public interface ChainFilter {
     Object invoke(ModuleInvoker<?> invoker, MessageRequest request) throws Throwable;
 }

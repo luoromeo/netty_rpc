@@ -14,7 +14,10 @@ import com.luoromeo.rpc.netty.send.MessageSendExecutor;
 import com.luoromeo.rpc.serialize.support.RpcSerializeProtocol;
 
 /**
- * @description
+ * @description <p>
+ *              FactoryBean跟普通Bean不同，其返回的对象不是指定类的一个实例，
+ *              而是该FactoryBean的getObject方法所返回的对象
+ *              </p>
  * @author zhanghua.luo
  * @date 2018年04月09日 15:16
  * @modified By
@@ -36,12 +39,12 @@ public class NettyRpcReference implements FactoryBean, InitializingBean, Disposa
     private EventBus eventBus = new EventBus();
 
     @Override
-    public void destroy() throws Exception {
+    public void destroy() {
         eventBus.post(new ClientStopEvent(0));
     }
 
     @Override
-    public Object getObject() throws Exception {
+    public Object getObject() {
         return MessageSendExecutor.getInstance().execute(getObjectType());
     }
 
@@ -61,7 +64,7 @@ public class NettyRpcReference implements FactoryBean, InitializingBean, Disposa
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         MessageSendExecutor.getInstance().setRpcServerLoader(ipAddr, RpcSerializeProtocol.valueOf(protocol));
         ClientStopEventListener listener = new ClientStopEventListener();
         eventBus.register(listener);

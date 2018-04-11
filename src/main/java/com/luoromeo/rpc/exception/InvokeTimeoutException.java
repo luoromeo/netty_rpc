@@ -15,13 +15,6 @@
  */
 package com.luoromeo.rpc.exception;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:InvokeTimeoutException.java
- * @description:InvokeTimeoutException功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2017/10/28
- */
 public class InvokeTimeoutException extends RuntimeException {
     public InvokeTimeoutException() {
         super();

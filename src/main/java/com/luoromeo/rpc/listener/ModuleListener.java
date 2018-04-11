@@ -18,13 +18,6 @@ package com.luoromeo.rpc.listener;
 import com.luoromeo.rpc.core.ModuleProvider;
 import com.luoromeo.rpc.model.MessageRequest;
 
-/**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:ModuleListener.java
- * @description:ModuleListener
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2018/1/31
- */
 public interface ModuleListener {
     void exported(ModuleProvider<?> provider, MessageRequest request);
 

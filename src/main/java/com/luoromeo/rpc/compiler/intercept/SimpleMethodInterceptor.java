@@ -12,6 +12,7 @@ public class SimpleMethodInterceptor implements Interceptor {
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
+
         System.out.println(StringUtils.center("[SimpleMethodInterceptor##intercept]", 48, "*"));
         // FIXME: 2017/8/30 by tangjie
         // 对于RPC客户端过来的反射请求，不能无限制地在服务端直接运行，这样可能有安全隐患！

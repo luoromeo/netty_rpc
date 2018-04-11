@@ -7,6 +7,7 @@ package com.luoromeo.rpc.core;
  * @modified By
  */
 public interface ModuleProvider<T> {
+
     ModuleInvoker<T> getInvoker();
 
     void destoryInvoker();

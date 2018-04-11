@@ -152,12 +152,13 @@ public class ReflectionUtils {
                 && Object.class.equals(method.getParameterTypes()[0]);
     }
 
+    @SuppressWarnings("unchecked")
     public static Object newInstance(Class type) {
         Constructor constructor = null;
         Object[] args = new Object[0];
         try {
-            constructor = type.getConstructor(new Class[] {});
-        } catch (NoSuchMethodException e) {
+            constructor = type.getConstructor();
+        } catch (NoSuchMethodException ignore) {
         }
 
         if (constructor == null) {
@@ -291,6 +292,7 @@ public class ReflectionUtils {
      * @param parameterTypes
      * @return
      */
+    @SuppressWarnings("unchecked")
     public static Method findDeclaredMethod(final Class<?> cls, final String methodName, final Class<?>... parameterTypes) {
         Method method = null;
         try {
