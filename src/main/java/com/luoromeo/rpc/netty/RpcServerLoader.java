@@ -91,7 +91,7 @@ public class RpcServerLoader {
                         }
 
                         // Futures异步回调，唤醒所有rpc等待线程
-                        if (result == Boolean.TRUE && messageSendHandler != null) {
+                        if (result.equals(Boolean.TRUE) && messageSendHandler != null) {
                             connectStatus.signalAll();
                         }
                     } catch (InterruptedException ex) {
@@ -101,6 +101,7 @@ public class RpcServerLoader {
                     }
                 }
 
+                @Override
                 public void onFailure(Throwable t) {
                     t.printStackTrace();
                 }

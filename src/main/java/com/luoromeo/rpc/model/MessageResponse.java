@@ -27,6 +27,8 @@ public class MessageResponse implements Serializable {
 
     private boolean returnNotNull;
 
+    private long invokeTimespan;
+
     public String getMessageId() {
         return messageId;
     }
@@ -57,6 +59,14 @@ public class MessageResponse implements Serializable {
 
     public void setReturnNotNull(boolean returnNotNull) {
         this.returnNotNull = returnNotNull;
+    }
+
+    public long getInvokeTimespan() {
+        return invokeTimespan;
+    }
+
+    public void setInvokeTimespan(long invokeTimespan) {
+        this.invokeTimespan = invokeTimespan;
     }
 
     @Override

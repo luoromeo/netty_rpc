@@ -43,6 +43,7 @@ public class ModuleListenerChainWrapper implements Modular {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> ModuleProvider<T> invoke(ModuleInvoker<T> invoker, MessageRequest request) {
         return new ModuleProviderWrapper(modular.invoke(invoker, request), Collections.unmodifiableList(listeners), request);
     }

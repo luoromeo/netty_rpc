@@ -39,6 +39,7 @@ public class RpcRecvSerializeFrame implements RpcSerializeFrame {
 
     @Override
     public void select(RpcSerializeProtocol protocol, ChannelPipeline pipeline) {
+        // 提供多种序列化 编解码方式
         switch (protocol) {
             case JDKSERIALIZE: {
                 handler.getInstance(JdkNativeRecvHandler.class).handle(handlerMap, pipeline);

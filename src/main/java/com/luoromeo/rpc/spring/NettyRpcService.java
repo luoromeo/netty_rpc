@@ -14,6 +14,10 @@ import com.luoromeo.rpc.netty.server.MessageRecvExecutor;
 
 /**
  * @description NettyRpcService功能模块
+ *              <P>
+ *              在一些业务场景中，当容器初始化完成之后，需要处理一些操作，比如一些数据的加载、初始化缓存、特定任务的注册等等。
+ *              这个时候我们就可以使用Spring提供的ApplicationListener来进行操作。
+ *              </P>
  * @author zhanghua.luo
  * @date 2018年04月03日 13:57
  * @modified By

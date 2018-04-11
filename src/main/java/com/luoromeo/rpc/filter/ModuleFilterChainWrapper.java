@@ -23,11 +23,7 @@ import com.luoromeo.rpc.core.ModuleProvider;
 import com.luoromeo.rpc.model.MessageRequest;
 
 /**
- * @author tangjie<https://github.com/tang-jie>
- * @filename:ModuleFilterChainWrapper.java
- * @description:ModuleFilterChainWrapper功能模块
- * @blogs http://www.cnblogs.com/jietang/
- * @since 2018/2/2
+ *
  */
 public class ModuleFilterChainWrapper implements Modular {
     private Modular modular;
@@ -47,7 +43,7 @@ public class ModuleFilterChainWrapper implements Modular {
     }
 
     private <T> ModuleInvoker<T> buildChain(ModuleInvoker<T> invoker) {
-        ModuleInvoker last = invoker;
+        ModuleInvoker<T> last = invoker;
 
         if (filters.size() > 0) {
             for (int i = filters.size() - 1; i >= 0; i--) {

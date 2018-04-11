@@ -2,6 +2,9 @@ package com.luoromeo.rpc.netty.server;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.luoromeo.rpc.serialize.support.RpcSerializeProtocol;
 
 import io.netty.channel.ChannelInitializer;
@@ -15,6 +18,8 @@ import io.netty.channel.socket.SocketChannel;
  * @modified By
  */
 public class MessageRecvChannelInitializer extends ChannelInitializer<SocketChannel> {
+
+    private static final Logger logger = LoggerFactory.getLogger(MessageRecvChannelInitializer.class);
 
     private RpcSerializeProtocol protocol;
 

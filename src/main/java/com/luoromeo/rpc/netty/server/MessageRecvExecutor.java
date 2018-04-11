@@ -17,6 +17,8 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.logging.Level;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -53,11 +55,16 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  */
 public class MessageRecvExecutor implements ApplicationContextAware {
 
+    private static final Logger logger = LoggerFactory.getLogger(MessageRecvExecutor.class);
+
     /**
      * 服务器地址 ip:port
      */
     private String serverAddress;
 
+    /**
+     * api html port
+     */
     private int echoApiPort;
 
     /**
@@ -85,17 +92,41 @@ public class MessageRecvExecutor implements ApplicationContextAware {
      */
     private static int queueNums = RpcSystemConfig.SYSTEM_PROPERTY_THREADPOOL_QUEUE_NUMS;
 
+    /**
+     * <p>
+     * 对应JDK中的 ExecutorService.submit(Callable) 提交多线程异步运算的方式，Guava
+     * 提供了ListeningExecutorService 接口, 该接口返回 ListenableFuture，
+     * 而相应的ExecutorService 返回普通的 Future。将 ExecutorService 转为
+     * ListeningExecutorService
+     * ，可以使用MoreExecutors.listeningDecorator(ExecutorService)进行装饰
+     * </p>
+     * <p>
+     * ListenableFuture接口并继承了JDK concurrent包下的Future 接口，ListenableFuture
+     * 允许你注册回调方法(callbacks)，在运算（多线程执行）完成的时候进行调用, 或者在运算（多线程执行）完成后立即执行
+     * </p>
+     */
     private static volatile ListeningExecutorService threadPoolExecutor;
 
+    /**
+     * 存放rpc的spring bean
+     */
     private Map<String, Object> handlerMap = new ConcurrentHashMap<>();
 
+    /**
+     * echo 线程池大小
+     */
     private int numberOfEchoThreadsPool = 1;
 
-    ThreadFactory threadRpcFactory = new NamedThreadFactory("NettyRPC ThreadFactory");
+    /**
+     * netty worker 线程工厂
+     */
+    private ThreadFactory threadRpcFactory = new NamedThreadFactory("NettyRPC ThreadFactory");
 
-    EventLoopGroup boss = new NioEventLoopGroup();
-
-    EventLoopGroup worker = new NioEventLoopGroup(PARALLEL, threadRpcFactory, SelectorProvider.provider());
+    /**
+     * 主从Reactor多线程模型
+     */
+    private EventLoopGroup boss = new NioEventLoopGroup();
+    private EventLoopGroup worker = new NioEventLoopGroup(PARALLEL, threadRpcFactory, SelectorProvider.provider());
 
     public MessageRecvExecutor() {
         handlerMap.clear();
@@ -110,6 +141,16 @@ public class MessageRecvExecutor implements ApplicationContextAware {
         return MessageRecvExecutorHolder.INSTANCE;
     }
 
+    /**
+     * @description
+     * @author zhanghua.luo
+     * @date 2018年04月10日 05:03:51
+     * @param task AbstractMessageRecvInitializeTask
+     * @param ctx
+     * @param request
+     * @param response
+     * @return
+     */
     public static void submit(Callable<Boolean> task, final ChannelHandlerContext ctx, final MessageRequest request, final MessageResponse response) {
         if (threadPoolExecutor == null) {
             synchronized (MessageRecvExecutor.class) {
@@ -139,10 +180,10 @@ public class MessageRecvExecutor implements ApplicationContextAware {
     @Override
     public void setApplicationContext(ApplicationContext ctx) throws BeansException {
         try {
-            MessageKeyVal keyVal = (MessageKeyVal) ctx.getBean(Class.forName("com.newlandframework.rpc.model.MessageKeyVal"));
+            MessageKeyVal keyVal = (MessageKeyVal) ctx.getBean(Class.forName("com.luoromeo.rpc.model.MessageKeyVal"));
             Map<String, Object> rpcServiceObject = keyVal.getMessageKeyVal();
 
-            Set s = rpcServiceObject.entrySet();
+            Set<Map.Entry<String, Object>> s = rpcServiceObject.entrySet();
             Iterator<Map.Entry<String, Object>> it = s.iterator();
             Map.Entry<String, Object> entry;
 
@@ -155,9 +196,21 @@ public class MessageRecvExecutor implements ApplicationContextAware {
         }
     }
 
+    /**
+     * @description 服务端启动
+     * @author zhanghua.luo
+     * @date 2018年04月10日 02:16:11
+     * @param
+     * @return
+     */
     public void start() {
         try {
+            logger.info("start rpc server...");
             ServerBootstrap bootstrap = new ServerBootstrap();
+            //handler在初始化时就会执行，而childHandler会在客户端成功connect后才执行
+            //BACKLOG用于构造服务端套接字ServerSocket对象，标识当服务器请求处理线程全满时，
+            //用于临时存放已完成三次握手的请求的队列的最大长度。如果未设置或所设置的值小于1，Java将使用默认值50
+            //是否启用心跳保活机制。在双方TCP套接字建立连接后（即都进入ESTABLISHED状态）并且在两个小时左右上层没有任何数据传输的情况下，这套机制才会被激活。
             bootstrap.group(boss, worker).channel(NioServerSocketChannel.class)
                     .childHandler(new MessageRecvChannelInitializer(handlerMap).buildRpcSerializeProtocol(serializeProtocol))
                     .option(ChannelOption.SO_BACKLOG, 128).childOption(ChannelOption.SO_KEEPALIVE, true);
@@ -173,11 +226,11 @@ public class MessageRecvExecutor implements ApplicationContextAware {
                 future.addListener((ChannelFutureListener) channelFuture -> {
                     if (channelFuture.isSuccess()) {
                         final ExecutorService executor = Executors.newFixedThreadPool(numberOfEchoThreadsPool);
+                        //启动
                         ExecutorCompletionService<Boolean> completionService = new ExecutorCompletionService<>(executor);
                         completionService.submit(new ApiEchoResolver(host, echoApiPort));
-                        System.out
-                                .printf("[author luoromeo] Netty RPC Server start success!\nip:%s\nport:%d\nprotocol:%s\nstart-time:%s\njmx-invoke-metrics:%s\n\n",
-                                        host, port, serializeProtocol, getStartTime(), (RpcSystemConfig.SYSTEM_PROPERTY_JMX_METRICS_SUPPORT ? "open"
+                        logger.info("[author luoromeo] Netty RPC Server start success!\nip:{}\nport:{}\nprotocol:{}\nstart-time:{}\njmx-invoke-metrics:{}\n\n",
+                                        host, port, serializeProtocol.getProtocol(), getStartTime(), (RpcSystemConfig.SYSTEM_PROPERTY_JMX_METRICS_SUPPORT ? "open"
                                                 : "close"));
                         // channelFuture.channel().closeFuture().sync().addListener((ChannelFutureListener)
                         // future1 -> executor.shutdownNow());
@@ -199,7 +252,7 @@ public class MessageRecvExecutor implements ApplicationContextAware {
     }
 
     private void register() {
-        handlerMap.put(RpcSystemConfig.RPC_COMPILER_SPI_ATTR, new AccessAdaptiveProvider());
+//        handlerMap.put(RpcSystemConfig.RPC_COMPILER_SPI_ATTR, new AccessAdaptiveProvider());
     }
 
     private String getStartTime() {

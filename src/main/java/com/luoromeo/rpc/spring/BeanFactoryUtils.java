@@ -16,6 +16,9 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 /**
  * @description BeanFactoryUtils功能模块
+ *              <p>
+ *              通过BeanFactoryAware可以直接在自己的代码中读取spring的bean 只需要实现setBeanFactory方法
+ *              </p>
  * @author zhanghua.luo
  * @date 2018年04月02日 11:51
  * @modified By

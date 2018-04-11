@@ -19,7 +19,7 @@ import com.luoromeo.rpc.netty.MethodProxyAdvisor;
 import com.luoromeo.rpc.spring.BeanFactoryUtils;
 
 /**
- * @description
+ * @description 消息任务
  * @author zhanghua.luo
  * @date 2018年04月09日 16:15
  * @modified By
@@ -78,6 +78,23 @@ public abstract class AbstractMessageRecvInitializeTask implements Callable<Bool
 
     }
 
+    private Object reflect(MessageRequest request) throws Throwable {
+
+        ProxyFactory weaver = new ProxyFactory(new MethodInvoker());
+
+        //spring 切面
+        NameMatchMethodPointcutAdvisor advisor = new NameMatchMethodPointcutAdvisor();
+        advisor.setMappedName(METHOD_MAPPED_NAME);
+        advisor.setAdvice(new MethodProxyAdvisor(handleMap));
+        weaver.addAdvisor(advisor);
+
+        MethodInvoker mi = (MethodInvoker) weaver.getProxy();
+        Object obj = invoke(mi, request);
+        invokeTimeSpan = mi.getInvokeTimeSpan();
+        setReturnNotNull(((MethodProxyAdvisor) advisor.getAdvice()).isReturnNotNull());
+        return obj;
+    }
+
     @SuppressWarnings("unchecked")
     private Object invoke(MethodInvoker mi, MessageRequest request) throws Throwable {
         if (modular != null) {
@@ -101,22 +118,6 @@ public abstract class AbstractMessageRecvInitializeTask implements Callable<Bool
         } else {
             return mi.invoke(request);
         }
-    }
-
-    private Object reflect(MessageRequest request) throws Throwable {
-
-        ProxyFactory weaver = new ProxyFactory(new MethodInvoker());
-
-        NameMatchMethodPointcutAdvisor advisor = new NameMatchMethodPointcutAdvisor();
-        advisor.setMappedName(METHOD_MAPPED_NAME);
-        advisor.setAdvice(new MethodProxyAdvisor(handleMap));
-        weaver.addAdvisor(advisor);
-
-        MethodInvoker mi = (MethodInvoker) weaver.getProxy();
-        Object obj = invoke(mi, request);
-        invokeTimeSpan = mi.getInvokeTimeSpan();
-        setReturnNotNull(((MethodProxyAdvisor) advisor.getAdvice()).isReturnNotNull());
-        return obj;
     }
 
     public String getStackTrace(Throwable ex) {

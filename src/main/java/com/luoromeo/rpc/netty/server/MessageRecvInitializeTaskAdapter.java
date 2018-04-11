@@ -18,31 +18,32 @@ public class MessageRecvInitializeTaskAdapter extends AbstractMessageRecvInitial
 
     @Override
     protected void injectInvoke() {
-
+        System.out.println("injectInvoke");
     }
 
     @Override
     protected void injectSuccInvoke(long invokeTimespan) {
-
+        System.out.println("injectSuccInvoke");
+        response.setInvokeTimespan(invokeTimespan);
     }
 
     @Override
     protected void injectFailInvoke(Throwable error) {
-
+        System.out.println("injectFailInvoke");
     }
 
     @Override
     protected void injectFilterInvoke() {
-
+        System.out.println("injectFilterInvoke");
     }
 
     @Override
     protected void acquire() {
-
+        System.out.println("acquire");
     }
 
     @Override
     protected void release() {
-
+        System.out.println("release");
     }
 }
