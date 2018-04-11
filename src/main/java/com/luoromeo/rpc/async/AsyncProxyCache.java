@@ -11,7 +11,7 @@ import com.google.common.collect.Maps;
  * @modified By
  */
 public class AsyncProxyCache {
-    private static Map<String, Class> cache = Maps.newConcurrentMap();
+    private static final Map<String, Class> cache = Maps.newConcurrentMap();
 
     public static Class get(String key) {
         return cache.get(key);

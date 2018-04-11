@@ -25,7 +25,7 @@ public class AsyncInvoker {
     public <R> R submit(final AsyncCallback<R> callback) {
         Type type = callback.getClass().getGenericInterfaces()[0];
         if (type instanceof ParameterizedType) {
-            Class returnClass = (Class) ReflectionUtils.getGenericClass((ParameterizedType) type, 0);
+            Class returnClass = ReflectionUtils.getGenericClass((ParameterizedType) type, 0);
             return intercept(callback, returnClass);
         } else {
             throw new AsyncCallException("NettyRPC AsyncCallback must be parameterized type!");
@@ -54,17 +54,12 @@ public class AsyncInvoker {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private <R> R submit(final AsyncCallback<R> callback, Class<?> returnClass) {
-        Future future = submit(new Callable() {
-            @Override
-            public R call() throws Exception {
-                return callback.call();
-            }
-        });
+        Future future = submit((Callable) callback::call);
 
         AsyncCallResult result = new AsyncCallResult(returnClass, future, RpcSystemConfig.SYSTEM_PROPERTY_ASYNC_MESSAGE_CALLBACK_TIMEOUT);
-        R asyncProxy = (R) result.getResult();
 
-        return asyncProxy;
+        return (R) result.getResult();
     }
 }

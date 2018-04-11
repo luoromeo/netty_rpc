@@ -17,7 +17,7 @@ public class AsyncCallResultInterceptor implements LazyLoader {
     }
 
     @Override
-    public Object loadObject() throws Exception {
+    public Object loadObject() {
         return result.loadFuture();
     }
 
