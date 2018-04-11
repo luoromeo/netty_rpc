@@ -1,4 +1,3 @@
-
 package com.luoromeo.rpc.compiler.parallel.policy;
 
 import java.util.concurrent.RejectedExecutionHandler;
@@ -6,7 +5,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 public class BlockingPolicy implements RejectedExecutionHandler {
     private static final Logger LOG = LoggerFactory.getLogger(BlockingPolicy.class);

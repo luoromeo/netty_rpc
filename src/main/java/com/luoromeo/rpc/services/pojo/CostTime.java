@@ -1,8 +1,6 @@
-
 package com.luoromeo.rpc.services.pojo;
 
 import java.io.Serializable;
-
 
 public class CostTime implements Serializable {
     public long elapse;

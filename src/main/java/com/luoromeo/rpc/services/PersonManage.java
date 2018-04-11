@@ -1,8 +1,6 @@
-
 package com.luoromeo.rpc.services;
 
 import com.luoromeo.rpc.services.pojo.Person;
-
 
 public interface PersonManage {
     int save(Person p);

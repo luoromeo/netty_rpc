@@ -1,4 +1,3 @@
-
 package com.luoromeo.rpc.serialize.support.protostuff;
 
 import java.io.InputStream;
@@ -13,7 +12,6 @@ import com.dyuproject.protostuff.Schema;
 import com.luoromeo.rpc.model.MessageRequest;
 import com.luoromeo.rpc.model.MessageResponse;
 import com.luoromeo.rpc.serialize.support.RpcSerialize;
-
 
 public class ProtostuffSerialize implements RpcSerialize {
     private static SchemaCache cachedSchema = SchemaCache.getInstance();

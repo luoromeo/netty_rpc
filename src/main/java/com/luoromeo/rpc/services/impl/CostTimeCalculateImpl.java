@@ -1,9 +1,7 @@
-
 package com.luoromeo.rpc.services.impl;
 
 import com.luoromeo.rpc.services.CostTimeCalculate;
 import com.luoromeo.rpc.services.pojo.CostTime;
-
 
 public class CostTimeCalculateImpl implements CostTimeCalculate {
     @Override

@@ -1,8 +1,6 @@
-
 package com.luoromeo.rpc.services.impl;
 
 import com.luoromeo.rpc.services.Store;
-
 
 public class StoreImpl implements Store {
     @Override

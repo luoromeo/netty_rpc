@@ -1,4 +1,3 @@
-
 package com.luoromeo.rpc.exception;
 
 public class RejectResponeException extends RuntimeException {

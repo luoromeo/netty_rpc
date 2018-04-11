@@ -1,8 +1,6 @@
-
 package com.luoromeo.rpc.services.impl;
 
 import com.luoromeo.rpc.services.MultiCalculate;
-
 
 public class MultiCalculateImpl implements MultiCalculate {
     // 两数相乘

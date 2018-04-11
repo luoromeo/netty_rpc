@@ -1,6 +1,4 @@
-
 package com.luoromeo.rpc.services;
-
 
 public interface Cache {
 

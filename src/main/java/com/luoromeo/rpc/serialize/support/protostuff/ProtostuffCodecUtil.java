@@ -1,4 +1,3 @@
-
 package com.luoromeo.rpc.serialize.support.protostuff;
 
 import java.io.ByteArrayInputStream;
@@ -9,7 +8,6 @@ import com.google.common.io.Closer;
 import com.luoromeo.rpc.serialize.support.MessageCodecUtil;
 
 import io.netty.buffer.ByteBuf;
-
 
 public class ProtostuffCodecUtil implements MessageCodecUtil {
     private static Closer closer = Closer.create();

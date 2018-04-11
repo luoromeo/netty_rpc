@@ -1,4 +1,3 @@
-
 package com.luoromeo.rpc.serialize.support.protostuff;
 
 import static com.luoromeo.rpc.core.RpcSystemConfig.SERIALIZE_POOL_MAX_TOTAL;

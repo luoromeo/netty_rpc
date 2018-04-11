@@ -15,10 +15,9 @@ import com.luoromeo.rpc.model.MessageRequest;
 
 /**
  * @description 代理类方法拦截器
- * <P>
- *     MethodInterceptor 方法拦截器
- *     MethodInvoker 的service bean在这里set
- * </P>
+ *              <P>
+ *              MethodInterceptor 方法拦截器 MethodInvoker 的service bean在这里set
+ *              </P>
  * @author zhanghua.luo
  * @date 2018年04月09日 16:53
  * @modified By
@@ -60,7 +59,7 @@ public class MethodProxyAdvisor implements MethodInterceptor {
 
         Object[] parameters = request.getParametersVal();
 
-        //判定此 Class 对象所表示的类或接口与指定的 Class 参数所表示的类或接口是否相同，或是否是其超类或超接口
+        // 判定此 Class 对象所表示的类或接口与指定的 Class 参数所表示的类或接口是否相同，或是否是其超类或超接口
         boolean existFilter = ServiceFilterBinder.class.isAssignableFrom(serviceBean.getClass());
 
         ((MethodInvoker) invocation.getThis()).setServiceBean(existFilter ? ((ServiceFilterBinder) serviceBean).getObject() : serviceBean);

@@ -1,4 +1,3 @@
-
 package com.luoromeo.rpc.serialize.support.protostuff;
 
 import java.util.concurrent.Callable;
@@ -9,7 +8,6 @@ import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.runtime.RuntimeSchema;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-
 
 public class SchemaCache {
     private static class SchemaCacheHolder {

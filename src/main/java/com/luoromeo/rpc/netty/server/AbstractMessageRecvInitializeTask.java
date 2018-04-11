@@ -82,7 +82,7 @@ public abstract class AbstractMessageRecvInitializeTask implements Callable<Bool
 
         ProxyFactory weaver = new ProxyFactory(new MethodInvoker());
 
-        //spring 切面
+        // spring 切面
         NameMatchMethodPointcutAdvisor advisor = new NameMatchMethodPointcutAdvisor();
         advisor.setMappedName(METHOD_MAPPED_NAME);
         advisor.setAdvice(new MethodProxyAdvisor(handleMap));

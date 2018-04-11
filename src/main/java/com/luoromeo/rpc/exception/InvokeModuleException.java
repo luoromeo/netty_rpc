@@ -1,4 +1,3 @@
-
 package com.luoromeo.rpc.exception;
 
 public class InvokeModuleException extends RuntimeException {

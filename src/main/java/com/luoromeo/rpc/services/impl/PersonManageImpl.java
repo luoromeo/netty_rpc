@@ -1,11 +1,9 @@
-
 package com.luoromeo.rpc.services.impl;
 
 import java.util.concurrent.TimeUnit;
 
 import com.luoromeo.rpc.services.PersonManage;
 import com.luoromeo.rpc.services.pojo.Person;
-
 
 public class PersonManageImpl implements PersonManage {
     @Override

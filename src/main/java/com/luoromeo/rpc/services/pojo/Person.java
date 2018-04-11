@@ -1,9 +1,7 @@
-
 package com.luoromeo.rpc.services.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
-
 
 public class Person implements Serializable {
     private int id;

@@ -127,6 +127,7 @@ public class MessageRecvExecutor implements ApplicationContextAware {
      * 主从Reactor多线程模型
      */
     private EventLoopGroup boss = new NioEventLoopGroup();
+
     private EventLoopGroup worker = new NioEventLoopGroup(PARALLEL, threadRpcFactory, SelectorProvider.provider());
 
     public MessageRecvExecutor() {
@@ -208,10 +209,10 @@ public class MessageRecvExecutor implements ApplicationContextAware {
         try {
             logger.info("start rpc server...");
             ServerBootstrap bootstrap = new ServerBootstrap();
-            //handler在初始化时就会执行，而childHandler会在客户端成功connect后才执行
-            //BACKLOG用于构造服务端套接字ServerSocket对象，标识当服务器请求处理线程全满时，
-            //用于临时存放已完成三次握手的请求的队列的最大长度。如果未设置或所设置的值小于1，Java将使用默认值50
-            //是否启用心跳保活机制。在双方TCP套接字建立连接后（即都进入ESTABLISHED状态）并且在两个小时左右上层没有任何数据传输的情况下，这套机制才会被激活。
+            // handler在初始化时就会执行，而childHandler会在客户端成功connect后才执行
+            // BACKLOG用于构造服务端套接字ServerSocket对象，标识当服务器请求处理线程全满时，
+            // 用于临时存放已完成三次握手的请求的队列的最大长度。如果未设置或所设置的值小于1，Java将使用默认值50
+            // 是否启用心跳保活机制。在双方TCP套接字建立连接后（即都进入ESTABLISHED状态）并且在两个小时左右上层没有任何数据传输的情况下，这套机制才会被激活。
             bootstrap.group(boss, worker).channel(NioServerSocketChannel.class)
                     .childHandler(new MessageRecvChannelInitializer(handlerMap).buildRpcSerializeProtocol(serializeProtocol))
                     .option(ChannelOption.SO_BACKLOG, 128).childOption(ChannelOption.SO_KEEPALIVE, true);
@@ -227,12 +228,13 @@ public class MessageRecvExecutor implements ApplicationContextAware {
                 future.addListener((ChannelFutureListener) channelFuture -> {
                     if (channelFuture.isSuccess()) {
                         final ExecutorService executor = Executors.newFixedThreadPool(numberOfEchoThreadsPool);
-                        //启动
+                        // 启动
                         ExecutorCompletionService<Boolean> completionService = new ExecutorCompletionService<>(executor);
                         completionService.submit(new ApiEchoResolver(host, echoApiPort));
-                        logger.info("[author luoromeo] Netty RPC Server start success!\nip:{}\nport:{}\nprotocol:{}\nstart-time:{}\njmx-invoke-metrics:{}\n\n",
-                                        host, port, serializeProtocol.getProtocol(), getStartTime(), (RpcSystemConfig.SYSTEM_PROPERTY_JMX_METRICS_SUPPORT ? "open"
-                                                : "close"));
+                        logger.info(
+                                "[author luoromeo] Netty RPC Server start success!\nip:{}\nport:{}\nprotocol:{}\nstart-time:{}\njmx-invoke-metrics:{}\n\n",
+                                host, port, serializeProtocol.getProtocol(), getStartTime(),
+                                (RpcSystemConfig.SYSTEM_PROPERTY_JMX_METRICS_SUPPORT ? "open" : "close"));
                         // channelFuture.channel().closeFuture().sync().addListener((ChannelFutureListener)
                         // future1 -> executor.shutdownNow());
                         // sync方法会导致死锁
